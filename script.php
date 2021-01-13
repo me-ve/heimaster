@@ -1,8 +1,14 @@
 <?php
     if(isset($_GET["summonerName"]))
     {
-        //receiving summoner id
+        //this file is created only for storing Riot API key
+        //if you want to use this tracker you need to retrieve your own
+        //and store it in the $key variable
+        //$key="";
         require("key.php");
+        
+        //receiving summoner id
+        //todo: changing regions
         $summonerRegion = "eun1";
         $summonerName = $_GET["summonerName"];
         
@@ -56,12 +62,10 @@
             //displaying data
             echo "<h1>{$summonerName}, Level {$summonerLevel}</h1>";
             echo "<table><tr>";
-            echo "<th>Position</th>";
+            echo "<th>No.</th>";
             echo "<th>Champion</th>";
             echo "<th>Level</th>";
             echo "<th>Points</th>";
-            //echo "<th>Since last level</th>";
-            //echo "<th>Until next level</th>";
             echo "<th>Progress</th>";
             echo "<th>Chest</th>";
             echo "<th>Tokens</th></tr>";
@@ -104,13 +108,11 @@
                     }
                 }
                 echo "<tr>";
-                echo "<td>{$position}</td>";
+                echo "<td>{$position}.</td>";
                 echo "<td>{$name}</td>";
                 echo "<td>{$level}</td>";
                 echo "<td>{$points}</td>";
                 echo "<td>{$progressToNextLevel}</td>";
-                //echo "<td>{$ptsSinceLastLevel}</td>";
-                //echo "<td>{$ptsUntilNextLevel}</td>";
                 echo "<td>{$chests}</td>";
                 echo "<td>{$tokens}</td>";
                 echo "</tr>";

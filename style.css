@@ -1,0 +1,15 @@
+body
+{
+    background-color:slategray;
+    color:snow;
+    font-family:'Helvetica';
+}
+.input
+{
+    font-family:'Helvetica';
+    background-color: silver;
+}
+th
+{
+    color:silver;
+}
