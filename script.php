@@ -68,7 +68,9 @@
             echo "<th>Points</th>";
             echo "<th>Progress</th>";
             echo "<th>Chest</th>";
-            echo "<th>Tokens</th></tr>";
+            echo "<th>Tokens</th>";
+            echo "<th>Last played</th>";
+            echo "</tr>";
             $position = 1;
             foreach($mastery as $champion)
             {
@@ -78,6 +80,7 @@
                 $ptsSinceLastLevel = $champion["championPointsSinceLastLevel"];
                 $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
                 $chests = $champion["chestGranted"];
+                $lastPlayTime = $champion["lastPlayTime"];
                 if($chests) $chests = "yes";
                 $tokens = $champion["tokensEarned"];
                 if($level<5)
@@ -99,7 +102,7 @@
                 {
                     $progressToNextLevel = "N/A";
                 }
-                $name = "";
+                $name = "";             
                 foreach($champions as $c)
                 {
                     if($id == $c["key"])
@@ -107,6 +110,7 @@
                         $name = $c["name"];
                     }
                 }
+                $date = date("Y-m-d H:i", $lastPlayTime/1000);
                 echo "<tr>";
                 echo "<td>{$position}.</td>";
                 echo "<td>{$name}</td>";
@@ -115,6 +119,7 @@
                 echo "<td>{$progressToNextLevel}</td>";
                 echo "<td>{$chests}</td>";
                 echo "<td>{$tokens}</td>";
+                echo "<td>{$date}</td>";
                 echo "</tr>";
                 $position++;
             }
