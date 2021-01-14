@@ -12,6 +12,7 @@ body
 th
 {
     color:silver;
+    font-weight: bold;
 }
 .cell
 {
@@ -19,5 +20,5 @@ th
     padding-right:10px;
     text-align:center;
     background-color:lightslategray;
-    border-radius: 10px;
+    border-radius: 5px;
 }

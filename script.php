@@ -124,10 +124,10 @@
                 $pointsFormat = number_format($points, 0, 0, ",");
                 $date = date("Y-m-d H:i", $lastPlayTime/1000);
                 echo "<tr id='row{$position}'>";
-                echo "<td id='position{$position}' class=cell>{$position}</td>";
+                echo "<td id='position{$position}' style='font-size: large;' class=cell>{$position}</td>";
                 echo "<td id='name{$position}' class=cell>{$name}</td>";
-                echo "<td id='image{$position}'><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto;' alt='{$name}'></td>";
-                echo "<td id='level{$position}' class=cell>{$level}</td>";
+                echo "<td id='image{$position}'><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto; border-radius: 5px;' alt='{$name}'></td>";
+                echo "<td id='level{$position}' style='font-size: large;' class=cell>{$level}</td>";
                 echo "<td id='points{$position}' class=cell>{$pointsFormat}</td>";
                 echo "<td id='progress{$position}' class=cell>{$progressToNextLevel}</td>";
                 echo "<td id='chests{$position}' class=cell>{$chests}</td>";
