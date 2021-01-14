@@ -64,13 +64,16 @@
                 array_push($champions, $array);
             }
             //displaying data
-            echo "<table id='summoner'>";
+            echo "<table id='summoner' style='width:100%'>";
             echo "<td id='icon' style='width:75px; height:75px;'>";
             echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
             echo "<div id='summonerLevel' style='top: 100%; left: 50%; width:75px; text-align:center; float:left;'>";
             echo "<span style='background-color:black; border-radius:3px; padding: 6px 6px 0px 6px;'>{$summonerLevel}</span></div>";
             echo "</td>";
-            echo "<td><h1 id='summonerData' style='margin: auto;'>{$summonerName} ({$summonerRegion})</h1></td>";
+            echo "<td><h1 id='summonerData' style='text-align:left;'>{$summonerName} ({$summonerRegion})</h1></td>";
+            echo "<td>";
+            include ("form.html");
+            echo "</td>";
             echo "</table>";
             echo "<table id='champions' style='width:100%'><tr id='row0'>";
             echo "<th id='position0'>#</th>";
@@ -151,6 +154,7 @@
     }
     else
     {
+        include ("form.html");
         echo "Please input the valid Summoner name.";
     }
 }
