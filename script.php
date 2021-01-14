@@ -1,5 +1,5 @@
 <?php
-    if(isset($_GET["summonerName"]))
+    if(isset($_GET["summonerName"])&&isset($_GET["region"]))
     {
         //this file is created only for storing Riot API key
         //if you want to use this tracker you need to retrieve your own
@@ -8,8 +8,7 @@
         require("key.php");
         
         //receiving summoner id
-        //todo: changing regions
-        $summonerRegion = "eun1";
+        $summonerRegion = $_GET["region"];
         $summonerName = $_GET["summonerName"];
         $gameVersion = "11.1.1";
         
@@ -66,13 +65,17 @@
             }
             //displaying data
             echo "<table id='summoner'>";
-            echo "<td><img id='summonerIcon' style='width: 60px;height: 60px;border-radius: 10px;' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'></td>";
-            echo "<td><h1 id='summonerData' style='margin: auto;'>{$summonerName}, Level {$summonerLevel}</h1></td>";
+            echo "<td id='icon' style='width:75px; height:75px;'>";
+            echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
+            echo "<div id='summonerLevel' style='top: 100%; left: 50%; width:75px; text-align:center; float:left;'>";
+            echo "<span style='background-color:black; border-radius:3px; padding: 6px 6px 0px 6px;'>{$summonerLevel}</span></div>";
+            echo "</td>";
+            echo "<td><h1 id='summonerData' style='margin: auto;'>{$summonerName} ({$summonerRegion})</h1></td>";
             echo "</table>";
-            echo "<table id='champions'><tr id='row0'>";
+            echo "<table id='champions' style='width:100%'><tr id='row0'>";
             echo "<th id='position0'>#</th>";
-            echo "<th id='name0'>Champion</th>";
             echo "<th id='image0'></th>";
+            echo "<th id='name0'>Champion</th>";
             echo "<th id='level0'>Level</th>";
             echo "<th id='points0'>Points</th>";
             echo "<th id='progress0'>Progress</th>";
@@ -90,7 +93,6 @@
                 $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
                 $chests = $champion["chestGranted"];
                 $lastPlayTime = $champion["lastPlayTime"];
-                if($chests) $chests = "yes";
                 $tokens = $champion["tokensEarned"];
                 if($level<5)
                 {
@@ -125,15 +127,22 @@
                 $pointsFormat = number_format($points, 0, 0, ",");
                 $date = date("Y-m-d H:i", $lastPlayTime/1000);
                 echo "<tr id='row{$position}'>";
-                echo "<td id='position{$position}' style='font-size: large;' class=cell>{$position}</td>";
+                echo "<td id='position{$position}' style='width:60px' class=cell>{$position}</td>";
+                echo "<td id='image{$position}' class=championimage><img src='{$iconURL}' class='championimage' alt='{$name}'></td>";
                 echo "<td id='name{$position}' class=cell>{$name}</td>";
-                echo "<td id='image{$position}'><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto; border-radius: 5px;' alt='{$name}'></td>";
-                echo "<td id='level{$position}' style='font-size: large;' class=cell>{$level}</td>";
-                echo "<td id='points{$position}' class=cell>{$pointsFormat}</td>";
-                echo "<td id='progress{$position}' class=cell>{$progressToNextLevel}</td>";
-                echo "<td id='chests{$position}' class=cell>{$chests}</td>";
-                echo "<td id='tokens{$position}' class=cell>{$tokens}</td>";
-                echo "<td id='date{$position}' class=cell>{$date}</td>";
+                echo "<td id='level{$position}' style='width:60px' class=cell>{$level}</td>";
+                echo "<td id='points{$position}' style='width:240px' class=cell>{$pointsFormat}</td>";
+                echo "<td id='progress{$position}' style='width:60px' class=cell>{$progressToNextLevel}</td>";
+                if($chests)
+                {
+                    echo "<td id='chests{$position}' style='background-color:yellowgreen; width:60px' class=cell>yes</td>";
+                }
+                else
+                {
+                    echo "<td id='chests{$position}' style='background-color:crimson; width:60px' class=cell>no</td>";
+                }
+                echo "<td id='tokens{$position}' style='width:60px' class=cell>{$tokens}</td>";
+                echo "<td id='date{$position}' style='width:240px' class=cell>{$date}</td>";
                 echo "</tr>";
                 $position++;
             }

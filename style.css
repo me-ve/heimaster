@@ -14,11 +14,26 @@ th
     color:silver;
     font-weight: bold;
 }
+.championimage
+{
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    border-radius: 5px;
+}
 .cell
 {
+    font-size: large;
     padding-left:10px;
     padding-right:10px;
     text-align:center;
     background-color:lightslategray;
     border-radius: 5px;
+}
+#summonerIcon
+{
+    width: 75px;
+    height: 75px;
+    border-radius: 10px;
+    border: 2px solid black;
 }
