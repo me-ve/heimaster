@@ -65,12 +65,12 @@
             }
             //displaying data
             echo "<table id='summoner' style='width:100%'>";
-            echo "<td id='icon' style='width:75px; height:75px;'>";
+            echo "<td id='icon' style='width:75px; height:75px; padding-right:10px;'>";
             echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
             echo "<div id='summonerLevel' style='top: 100%; left: 50%; width:75px; text-align:center; float:left;'>";
             echo "<span style='background-color:black; border-radius:3px; padding: 6px 6px 0px 6px;'>{$summonerLevel}</span></div>";
             echo "</td>";
-            echo "<td><h1 id='summonerData' style='text-align:left;'>{$summonerName} ({$summonerRegion})</h1></td>";
+            echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1></td>";
             echo "<td>";
             include ("form.html");
             echo "</td>";
@@ -138,11 +138,11 @@
                 echo "<td id='progress{$position}' style='width:60px' class=cell>{$progressToNextLevel}</td>";
                 if($chests)
                 {
-                    echo "<td id='chests{$position}' style='background-color:yellowgreen; width:60px' class=cell>yes</td>";
+                    echo "<td id='chests{$position}' style='background-color: #ceb572; width:60px' class=cell>yes</td>";
                 }
                 else
                 {
-                    echo "<td id='chests{$position}' style='background-color:crimson; width:60px' class=cell>no</td>";
+                    echo "<td id='chests{$position}' style='background-color: #6c7b8b; width:60px' class=cell>no</td>";
                 }
                 echo "<td id='tokens{$position}' style='width:60px' class=cell>{$tokens}</td>";
                 echo "<td id='date{$position}' style='width:240px' class=cell>{$date}</td>";
