@@ -11,6 +11,7 @@
         //todo: changing regions
         $summonerRegion = "eun1";
         $summonerName = $_GET["summonerName"];
+        $gameVersion = "11.1.1";
         
         $site = "https://{$summonerRegion}.api.riotgames.com";
         $summonerAPI = "lol/summoner/v4/summoners/by-name";
@@ -20,6 +21,7 @@
 
         $summonerId = $summonerData['id'];
         $summonerLevel = $summonerData['summonerLevel'];
+        $summonerIcon = $summonerData['profileIconId'];
         
         //receiving champions masteries for summoner
         $masteryAPI = "lol/champion-mastery/v4/champion-masteries/by-summoner";
@@ -46,7 +48,8 @@
             }
         };
         //getting list of champions names
-        $championsURL = "http://ddragon.leagueoflegends.com/cdn/11.1.1/data/en_US/champion.json";
+        $ddragonURL = "http://ddragon.leagueoflegends.com/cdn/{$gameVersion}";
+        $championsURL = "{$ddragonURL}/data/en_US/champion.json";
         $championsJSON = file_get_contents($championsURL);
         $championsData = json_decode($championsJSON, 1);
         if(isset($championsData))
@@ -55,15 +58,20 @@
             foreach($championsData["data"] as $champion) {
                 $array = [
                     "key" => $champion["key"],
-                    "name" => $champion["name"]
+                    "name" => $champion["name"],
+                    "image" => $champion["image"]["full"]
                 ];
                 array_push($champions, $array);
             }
             //displaying data
-            echo "<h1>{$summonerName}, Level {$summonerLevel}</h1>";
+            echo "<table id='summoner'>";
+            echo "<td><img id='summonerIcon' style='width: 60px;height: 60px;' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'></td>";
+            echo "<td><h1 id='summonerData' style='margin: auto;'>{$summonerName}, Level {$summonerLevel}</h1></td>";
+            echo "</table>";
             echo "<table><tr>";
             echo "<th>No.</th>";
             echo "<th>Champion</th>";
+            echo "<th>Icon</th>";
             echo "<th>Level</th>";
             echo "<th>Points</th>";
             echo "<th>Progress</th>";
@@ -102,23 +110,27 @@
                 {
                     $progressToNextLevel = "N/A";
                 }
-                $name = "";             
+                $name = "";
+                $iconURL = "";
                 foreach($champions as $c)
                 {
                     if($id == $c["key"])
                     {
                         $name = $c["name"];
+                        $icon = $c["image"];
+                        $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }
                 $date = date("Y-m-d H:i", $lastPlayTime/1000);
                 echo "<tr>";
-                echo "<td>{$position}.</td>";
+                echo "<td style='text-align:right;'>{$position}.</td>";
                 echo "<td>{$name}</td>";
-                echo "<td>{$level}</td>";
-                echo "<td>{$points}</td>";
-                echo "<td>{$progressToNextLevel}</td>";
-                echo "<td>{$chests}</td>";
-                echo "<td>{$tokens}</td>";
+                echo "<td><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto;'></td>";
+                echo "<td style='text-align:center;'>{$level}</td>";
+                echo "<td style='text-align:center;'>{$points}</td>";
+                echo "<td style='text-align:center;'>{$progressToNextLevel}</td>";
+                echo "<td style='text-align:center;'>{$chests}</td>";
+                echo "<td style='text-align:center;'>{$tokens}</td>";
                 echo "<td>{$date}</td>";
                 echo "</tr>";
                 $position++;
