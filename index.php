@@ -7,7 +7,7 @@
     <body>
         <form method="get">
         <label for="summonerName">Summoner name:</label>
-        <input type="text" class="input" id="summonerName" name="summonerName" style="border-radius: 5px;">
+        <input type="text" class="input" id="summonerName" name="summonerName" style="border-radius: 5px;" required>
         <input type="submit" class="input" value="Summon!" style="border-radius: 5px;">
         </form>
     <?php include("script.php"); ?>

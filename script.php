@@ -18,7 +18,8 @@
         $summonerQuery = "{$site}/{$summonerAPI}/{$summonerName}?api_key={$key}";
         $summonerJSON = file_get_contents($summonerQuery);
         $summonerData = json_decode($summonerJSON, 1);
-
+        if(isset($summonerData))
+        {
         $summonerId = $summonerData['id'];
         $summonerLevel = $summonerData['summonerLevel'];
         $summonerIcon = $summonerData['profileIconId'];
@@ -139,4 +140,9 @@
             echo "</table>";
         }
     }
+    else
+    {
+        echo "Please input the valid Summoner name.";
+    }
+}
 ?>
