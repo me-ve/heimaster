@@ -1,6 +1,6 @@
 body
 {
-    background-color:slategray;
+    background-color:slategrey;
     color:snow;
     font-family:'Helvetica';
 }
@@ -12,4 +12,12 @@ body
 th
 {
     color:silver;
+}
+.cell
+{
+    padding-left:10px;
+    padding-right:10px;
+    text-align:center;
+    background-color:lightslategray;
+    border-radius: 10px;
 }

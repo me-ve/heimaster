@@ -65,19 +65,19 @@
             }
             //displaying data
             echo "<table id='summoner'>";
-            echo "<td><img id='summonerIcon' style='width: 60px;height: 60px;' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'></td>";
+            echo "<td><img id='summonerIcon' style='width: 60px;height: 60px;border-radius: 10px;' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'></td>";
             echo "<td><h1 id='summonerData' style='margin: auto;'>{$summonerName}, Level {$summonerLevel}</h1></td>";
             echo "</table>";
-            echo "<table><tr>";
-            echo "<th>No.</th>";
-            echo "<th>Champion</th>";
-            echo "<th>Icon</th>";
-            echo "<th>Level</th>";
-            echo "<th>Points</th>";
-            echo "<th>Progress</th>";
-            echo "<th>Chest</th>";
-            echo "<th>Tokens</th>";
-            echo "<th>Last played</th>";
+            echo "<table id='champions'><tr id='row0'>";
+            echo "<th id='position0'>#</th>";
+            echo "<th id='name0'>Champion</th>";
+            echo "<th id='image0'></th>";
+            echo "<th id='level0'>Level</th>";
+            echo "<th id='points0'>Points</th>";
+            echo "<th id='progress0'>Progress</th>";
+            echo "<th id='chests0'>Chest</th>";
+            echo "<th id='tokens0'>Tokens</th>";
+            echo "<th id='date0'>Last played</th>";
             echo "</tr>";
             $position = 1;
             foreach($mastery as $champion)
@@ -121,17 +121,18 @@
                         $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }
+                $pointsFormat = number_format($points, 0, 0, ",");
                 $date = date("Y-m-d H:i", $lastPlayTime/1000);
-                echo "<tr>";
-                echo "<td style='text-align:right;'>{$position}.</td>";
-                echo "<td>{$name}</td>";
-                echo "<td><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto;'></td>";
-                echo "<td style='text-align:center;'>{$level}</td>";
-                echo "<td style='text-align:center;'>{$points}</td>";
-                echo "<td style='text-align:center;'>{$progressToNextLevel}</td>";
-                echo "<td style='text-align:center;'>{$chests}</td>";
-                echo "<td style='text-align:center;'>{$tokens}</td>";
-                echo "<td>{$date}</td>";
+                echo "<tr id='row{$position}'>";
+                echo "<td id='position{$position}' class=cell>{$position}</td>";
+                echo "<td id='name{$position}' class=cell>{$name}</td>";
+                echo "<td id='image{$position}'><img src='{$iconURL}'style='width: 40px; height: 40px; margin: auto;' alt='{$name}'></td>";
+                echo "<td id='level{$position}' class=cell>{$level}</td>";
+                echo "<td id='points{$position}' class=cell>{$pointsFormat}</td>";
+                echo "<td id='progress{$position}' class=cell>{$progressToNextLevel}</td>";
+                echo "<td id='chests{$position}' class=cell>{$chests}</td>";
+                echo "<td id='tokens{$position}' class=cell>{$tokens}</td>";
+                echo "<td id='date{$position}' class=cell>{$date}</td>";
                 echo "</tr>";
                 $position++;
             }
