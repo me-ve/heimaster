@@ -103,7 +103,7 @@
                 echo "{$rankDisplay} ";
             }
             echo "</td>";
-            echo "<td>";
+            echo "<td style='width: 470px'>";
             include ("form.html");
             echo "</td>";
             echo "</table>";

@@ -1,6 +1,6 @@
 body
 {
-    background-color:slategrey;
+    background-color:#62708a;
     color:snow;
     font-family:'Helvetica';
 }
@@ -27,7 +27,7 @@ th
     padding-left:10px;
     padding-right:10px;
     text-align:center;
-    background-color:lightslategray;
+    background-color:#778899;
     border-radius: 5px;
 }
 #summonerIcon
