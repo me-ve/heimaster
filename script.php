@@ -72,29 +72,30 @@
             }
             ?>
             <table id='summoner'>
-            <td id='icon'>
-            <?php
-            echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
-            echo "<div id='summonerLevel'>";
-            echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
-            echo "</td>";
-            echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1>";
-            foreach($ranked as $queue)
-            {
-                if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";
-                if($queue["queueType"] == "RANKED_FLEX_SR") $type = "Flex";
-                $tier = ucfirst(strtolower($queue['tier']));
-                $rank  = $queue["rank"];
-                $LP = $queue["leaguePoints"];
-                $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
-                echo "{$rankDisplay} ";
-            }
-            echo "</td>";
-            echo "<td style='width: 470px'>";
-            include ("form.html");
-            echo "</td>";
-            echo "</table>";
-            ?>
+                <td id='icon'>
+                <?php
+                echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
+                echo "<div id='summonerLevel'>";
+                echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
+                echo "</td>";
+                echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1>";
+                foreach($ranked as $queue)
+                {
+                    if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";
+                    if($queue["queueType"] == "RANKED_FLEX_SR") $type = "Flex";
+                    $tier = ucfirst(strtolower($queue['tier']));
+                    $rank  = $queue["rank"];
+                    $LP = $queue["leaguePoints"];
+                    $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
+                    echo "{$rankDisplay} ";
+                }
+                ?>
+                </td>
+                <td style='width: 470px'>
+                    <?php include ("form.html"); ?>
+                </td>
+            </table>
+            
             <table id='champions'>
                 <tr id='row0'>
                     <th id='position0'>#</th>
@@ -119,25 +120,6 @@
                 $chests = $champion["chestGranted"];
                 $lastPlayTime = $champion["lastPlayTime"];
                 $tokens = $champion["tokensEarned"];
-                if($level<5)
-                {
-                    $progressToNextLevel = $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel);
-                    $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
-                }
-                else if($level == 5)
-                {
-                    $progressToNextLevel = $tokens/2;
-                    $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
-                }
-                else if($level == 6)
-                {
-                    $progressToNextLevel = $tokens/3;
-                    $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
-                }
-                else
-                {
-                    $progressToNextLevel = "N/A";
-                }
                 $name = "";
                 $iconURL = "";
                 foreach($champions as $c)
@@ -149,12 +131,12 @@
                         $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }
-                $pointsFormat = number_format($points, 0, 0, ",");
-                $date = date("Y-m-d H:i", $lastPlayTime/1000);
                 require("displayData.php");
                 $position++;
             }
-            echo "</table>";
+            ?>
+            </table>
+            <?php
         }
     }
     else

@@ -1,4 +1,25 @@
 <?php
+    if($level<5)
+    {
+        $progressToNextLevel = $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel);
+        $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
+    }
+    else if($level == 5)
+    {
+        $progressToNextLevel = $tokens/2;
+        $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
+    }
+    else if($level == 6)
+    {
+        $progressToNextLevel = $tokens/3;
+        $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
+    }
+    else
+    {
+        $progressToNextLevel = "N/A";
+    }
+    $pointsFormat = number_format($points, 0, 0, ",");
+    $date = date("Y-m-d H:i", $lastPlayTime/1000);
     echo "<tr id='row{$position}'>";
     echo "<td id='position{$position}' style='width:60px' class=cell>{$position}</td>";
     echo "<td id='image{$position}' class=championimage><img src='{$iconURL}' class='championimage' alt='{$name}'></td>";
