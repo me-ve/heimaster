@@ -22,7 +22,28 @@
         $summonerId = $summonerData['id'];
         $summonerLevel = $summonerData['summonerLevel'];
         $summonerIcon = $summonerData['profileIconId'];
-        
+
+        //receiving rank
+        $rankedAPI = "lol/league/v4/entries/by-summoner";
+        $rankedQuery = "{$site}/{$rankedAPI}/{$summonerId}?api_key={$key}";
+        $rankedJSON = file_get_contents($rankedQuery);
+        $rankedData = json_decode($rankedJSON, 1);
+        if(isset($rankedData))
+        {
+            $ranked = [];
+            foreach($rankedData as $queue)
+            {
+                $array = [
+                    "queueType" => $queue["queueType"],
+                    "tier" => $queue["tier"],
+                    "rank" => $queue["rank"],
+                    "leaguePoints" => $queue["leaguePoints"],
+                    "wins" => $queue["wins"],
+                    "loses" => $queue["loses"]
+                ];
+                array_push($ranked, $array);
+            }
+        }
         //receiving champions masteries for summoner
         $masteryAPI = "lol/champion-mastery/v4/champion-masteries/by-summoner";
         $masteryQuery = "{$site}/{$masteryAPI}/{$summonerId}?api_key={$key}";
@@ -70,7 +91,18 @@
             echo "<div id='summonerLevel' style='top: 100%; left: 50%; width:75px; text-align:center; float:left;'>";
             echo "<span style='background-color:black; border-radius:3px; padding: 6px 6px 0px 6px;'>{$summonerLevel}</span></div>";
             echo "</td>";
-            echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1></td>";
+            echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1>";
+            foreach($ranked as $queue)
+            {
+                if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";
+                if($queue["queueType"] == "RANKED_FLEX_SR") $type = "Flex";
+                $tier = ucfirst(strtolower($queue['tier']));
+                $rank  = $queue["rank"];
+                $LP = $queue["leaguePoints"];
+                $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
+                echo "{$rankDisplay} ";
+            }
+            echo "</td>";
             echo "<td>";
             include ("form.html");
             echo "</td>";
