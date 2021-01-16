@@ -6,17 +6,12 @@
         //and store it in the $key variable
         //$key="";
         require("key.php");
-        
-        //receiving summoner id
         $summonerRegion = $_GET["region"];
         $summonerName = $_GET["summonerName"];
-        $gameVersion = "11.1.1";
-        
         $site = "https://{$summonerRegion}.api.riotgames.com";
-        $summonerAPI = "lol/summoner/v4/summoners/by-name";
-        $summonerQuery = "{$site}/{$summonerAPI}/{$summonerName}?api_key={$key}";
-        $summonerJSON = file_get_contents($summonerQuery);
-        $summonerData = json_decode($summonerJSON, 1);
+        $gameVersion = "11.1.1";
+        //receiving summoner id
+        require("summonerQuery.php");
         if(isset($summonerData))
         {
         $summonerId = $summonerData['id'];
@@ -24,10 +19,7 @@
         $summonerIcon = $summonerData['profileIconId'];
 
         //receiving rank
-        $rankedAPI = "lol/league/v4/entries/by-summoner";
-        $rankedQuery = "{$site}/{$rankedAPI}/{$summonerId}?api_key={$key}";
-        $rankedJSON = file_get_contents($rankedQuery);
-        $rankedData = json_decode($rankedJSON, 1);
+        require("rankedQuery.php");
         if(isset($rankedData))
         {
             $ranked = [];
@@ -45,10 +37,7 @@
             }
         }
         //receiving champions masteries for summoner
-        $masteryAPI = "lol/champion-mastery/v4/champion-masteries/by-summoner";
-        $masteryQuery = "{$site}/{$masteryAPI}/{$summonerId}?api_key={$key}";
-        $masteryJSON = file_get_contents($masteryQuery);
-        $masteryData = json_decode($masteryJSON, 1);
+        require("masteryQuery.php");
         if(isset($masteryData))
         {
             $mastery = [];
@@ -69,10 +58,7 @@
             }
         };
         //getting list of champions names
-        $ddragonURL = "http://ddragon.leagueoflegends.com/cdn/{$gameVersion}";
-        $championsURL = "{$ddragonURL}/data/en_US/champion.json";
-        $championsJSON = file_get_contents($championsURL);
-        $championsData = json_decode($championsJSON, 1);
+        require("championsQuery.php");
         if(isset($championsData))
         {
             $champions = [];
