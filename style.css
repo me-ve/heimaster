@@ -41,6 +41,20 @@ th
     height:75px;
     padding-right:10px;
 }
+#logo
+{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 4em;
+    margin: auto;
+}
+#refreshTime
+{
+    color: silver;
+    font-size: small;
+    text-align: center;
+    margin: auto;
+}
 #summonerIcon
 {
     width: 75px;
