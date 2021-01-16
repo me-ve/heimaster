@@ -4,10 +4,15 @@ body
     color:snow;
     font-family:'Helvetica';
 }
+table
+{
+    width:100%;
+}
 .input
 {
     font-family:'Helvetica';
     background-color: silver;
+    border-radius: 5px;
 }
 th
 {
@@ -30,10 +35,30 @@ th
     background-color:#778899;
     border-radius: 5px;
 }
+#icon
+{
+    width:75px;
+    height:75px;
+    padding-right:10px;
+}
 #summonerIcon
 {
     width: 75px;
     height: 75px;
     border-radius: 10px;
     border: 2px solid black;
+}
+#summonerLevel
+{
+    top: 100%;
+    left: 50%;
+    width: 75px;
+    text-align: center;
+    float: left;
+}
+#summonerLevelSpan
+{
+    background-color:black;
+    border-radius:3px;
+    padding: 6px 6px 0px 6px;
 }

@@ -70,12 +70,13 @@
                 ];
                 array_push($champions, $array);
             }
-            //displaying data
-            echo "<table id='summoner' style='width:100%'>";
-            echo "<td id='icon' style='width:75px; height:75px; padding-right:10px;'>";
+            ?>
+            <table id='summoner'>
+            <td id='icon'>
+            <?php
             echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
-            echo "<div id='summonerLevel' style='top: 100%; left: 50%; width:75px; text-align:center; float:left;'>";
-            echo "<span style='background-color:black; border-radius:3px; padding: 6px 6px 0px 6px;'>{$summonerLevel}</span></div>";
+            echo "<div id='summonerLevel'>";
+            echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
             echo "</td>";
             echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1>";
             foreach($ranked as $queue)
@@ -93,17 +94,20 @@
             include ("form.html");
             echo "</td>";
             echo "</table>";
-            echo "<table id='champions' style='width:100%'><tr id='row0'>";
-            echo "<th id='position0'>#</th>";
-            echo "<th id='image0'></th>";
-            echo "<th id='name0'>Champion</th>";
-            echo "<th id='level0'>Level</th>";
-            echo "<th id='points0'>Points</th>";
-            echo "<th id='progress0'>Progress</th>";
-            echo "<th id='chests0'>Chest</th>";
-            echo "<th id='tokens0'>Tokens</th>";
-            echo "<th id='date0'>Last played</th>";
-            echo "</tr>";
+            ?>
+            <table id='champions'>
+                <tr id='row0'>
+                    <th id='position0'>#</th>
+                    <th id='image0'></th>
+                    <th id='name0'>Champion</th>
+                    <th id='level0'>Level</th>
+                    <th id='points0'>Points</th>
+                    <th id='progress0'>Progress</th>
+                    <th id='chests0'>Chest</th>
+                    <th id='tokens0'>Tokens</th>
+                    <th id='date0'>Last played</th>
+                </tr>
+            <?php
             $position = 1;
             foreach($mastery as $champion)
             {
@@ -147,24 +151,7 @@
                 }
                 $pointsFormat = number_format($points, 0, 0, ",");
                 $date = date("Y-m-d H:i", $lastPlayTime/1000);
-                echo "<tr id='row{$position}'>";
-                echo "<td id='position{$position}' style='width:60px' class=cell>{$position}</td>";
-                echo "<td id='image{$position}' class=championimage><img src='{$iconURL}' class='championimage' alt='{$name}'></td>";
-                echo "<td id='name{$position}' class=cell>{$name}</td>";
-                echo "<td id='level{$position}' style='width:60px' class=cell>{$level}</td>";
-                echo "<td id='points{$position}' style='width:240px' class=cell>{$pointsFormat}</td>";
-                echo "<td id='progress{$position}' style='width:60px' class=cell>{$progressToNextLevel}</td>";
-                if($chests)
-                {
-                    echo "<td id='chests{$position}' style='background-color: #ceb572; width:60px' class=cell>yes</td>";
-                }
-                else
-                {
-                    echo "<td id='chests{$position}' style='background-color: #6c7b8b; width:60px' class=cell>no</td>";
-                }
-                echo "<td id='tokens{$position}' style='width:60px' class=cell>{$tokens}</td>";
-                echo "<td id='date{$position}' style='width:240px' class=cell>{$date}</td>";
-                echo "</tr>";
+                require("displayData.php");
                 $position++;
             }
             echo "</table>";
