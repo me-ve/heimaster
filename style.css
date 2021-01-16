@@ -14,26 +14,33 @@ table
     background-color: silver;
     border-radius: 5px;
 }
-th
+th, #refreshTime
 {
-    color:silver;
-    font-weight: bold;
+    color: silver;
+    text-align: center;
+    margin: auto;
 }
-.championimage
+.championImage
 {
+    background-color:#778899;
     width: 60px;
     height: 60px;
     margin: auto;
     border-radius: 5px;
 }
-.cell
+.cell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
 {
-    font-size: large;
+    margin: auto;
+    font-size: larger;
     padding-left:10px;
     padding-right:10px;
     text-align:center;
     background-color:#778899;
     border-radius: 5px;
+}
+.chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
+{
+    width: 45px;
 }
 #icon
 {
@@ -45,14 +52,7 @@ th
 {
     text-align: center;
     font-weight: bolder;
-    font-size: 4em;
-    margin: auto;
-}
-#refreshTime
-{
-    color: silver;
-    font-size: small;
-    text-align: center;
+    font-size: 6em;
     margin: auto;
 }
 #summonerIcon
@@ -64,6 +64,7 @@ th
 }
 #summonerLevel
 {
+    font-size:small;
     top: 100%;
     left: 50%;
     width: 75px;

@@ -78,7 +78,9 @@
                 echo "<div id='summonerLevel'>";
                 echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
                 echo "</td>";
-                echo "<td><h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName} ({$summonerRegion})</h1>";
+                echo "<td>";
+                echo "{$summonerRegion}<br>";
+                echo "<h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName}</h1>";
                 foreach($ranked as $queue)
                 {
                     if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";

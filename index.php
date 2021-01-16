@@ -13,11 +13,11 @@
     {
         include ("form.html");
     }
-    include("script.php");
+    include("mainScript.php");
     ?>
     <p id="refreshTime">
         <?php
-        $date = date("Y-m-d H:i:s", time());
+        $date = date("Y-m-d H:i:s");
         echo "Last refreshed in {$date}";
         ?>
     </p>
