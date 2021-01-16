@@ -7,7 +7,7 @@
         //$key="";
         require("key.php");
         $summonerRegion = $_GET["region"];
-        $summonerName = $_GET["summonerName"];
+        $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
         $gameVersion = "11.1.1";
         //receiving summoner id
@@ -17,7 +17,7 @@
         $summonerId = $summonerData['id'];
         $summonerLevel = $summonerData['summonerLevel'];
         $summonerIcon = $summonerData['profileIconId'];
-
+        $summonerName = $summonerData['name'];
         //receiving rank
         require("rankedQuery.php");
         if(isset($rankedData))
