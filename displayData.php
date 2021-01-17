@@ -18,8 +18,14 @@
     {
         $progressToNextLevel = "N/A";
     }
+    if($stDev + $avgPts <= $points)
+    {
+
+    }
     $pointsFormat = number_format($points, 0, 0, ",");
+    $avgFormat = number_format($partOfAvg, 0, 0, ",");
     $date = date("Y-m-d H:i", $lastPlayTime/1000);
+    $d = new DateTime($date);
     echo "<tr id='row{$position}'>";
     echo "<td id='position{$position}' class=positionCell>{$position}</td>";
     echo "<td id='image{$position}' class=championImage><img src='{$iconURL}' class='championImage' alt='{$name}'></td>";
@@ -32,7 +38,19 @@
     {
         echo "<td id='level{$position}' class=levelCell>{$level}</td>";
     }
-    echo "<td id='points{$position}' style='width:120px' class=cell>{$pointsFormat}</td>";
+    if($stDev + $avgPts < $points)
+    {
+        echo "<td id='points{$position}' style='width:120px; color: #b8e584' class=cell>{$pointsFormat}</td>";
+    }
+    elseif($avgPts - $stDev > $points)
+    {
+        echo "<td id='points{$position}' style='width:120px; color: #ecb3a7' class=cell>{$pointsFormat}</td>";
+    }
+    else
+    {
+        echo "<td id='points{$position}' style='width:120px' class=cell>{$pointsFormat}</td>";
+    }
+    echo "<td id='partofavg{$position}' style='width:120px' class=cell>{$avgFormat}%</td>";
     echo "<td id='progress{$position}' class=progressCell>{$progressToNextLevel}</td>";
     if($chests)
     {

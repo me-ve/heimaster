@@ -105,6 +105,7 @@
                     <th id='name0'>Champion</th>
                     <th id='level0'>Level</th>
                     <th id='points0'>Points</th>
+                    <th id='partofavg0'>% of average</th>
                     <th id='progress0'>Progress</th>
                     <th id='chests0'>Chest</th>
                     <th id='tokens0'>Tokens</th>
@@ -112,11 +113,34 @@
                 </tr>
             <?php
             $position = 1;
+            $totalPts = 0;
+            $count = 0;
+            $pointsArray = [];
+            $avgDiffSq = [];
+            foreach($mastery as $champion)
+            {
+                $totalPts += $champion["championPoints"];
+                $count++;
+                array_push($pointsArray, $champion["championPoints"]);
+            }
+            if($count) $avgPts = $totalPts / $count;
+            $sigmaSq = 0;
+            for($i=0; $i<count($pointsArray); $i++)
+            {
+                $avgDiff = $pointsArray[$i] - $avgPts;
+                $avgDiffSq[$i] = $avgDiff * $avgDiff;
+                $sigmaSq += $avgDiffSq[$i];
+            }
+            if($count > 1)
+            $sigmaSq /= ($count-1);
+            $stDev = sqrt($sigmaSq);
+            //echo "STDEV = $stDev AVG = $avgPts";
             foreach($mastery as $champion)
             {
                 $id = $champion["championId"];
                 $level = $champion["championLevel"];
                 $points = $champion["championPoints"];
+                $partOfAvg = (round($points / $avgPts, 2)*100);
                 $ptsSinceLastLevel = $champion["championPointsSinceLastLevel"];
                 $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
                 $chests = $champion["chestGranted"];
