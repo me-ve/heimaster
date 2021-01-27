@@ -27,7 +27,7 @@ th, #refreshTime
     height: 60px;
     border-radius: 5px;
 }
-.cell, .mediumCell, .longCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
+.cell, .smallCell, .mediumCell, .longCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
 {
     margin: auto;
     font-size: larger;
@@ -45,7 +45,7 @@ th, #refreshTime
 {
     width:240px;
 }
-.chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
+.smallCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
 {
     width: 45px;
 }

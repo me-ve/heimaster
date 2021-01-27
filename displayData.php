@@ -18,12 +18,9 @@
     {
         $progressToNextLevel = "N/A";
     }
-    if($stDev + $avgPts <= $points)
-    {
-
-    }
-    $pointsFormat = number_format($points, 0, 0, ",");
-    $avgFormat = number_format($partOfAvg, 0, 0, ",");
+    $pointsFormat = number_format($points, 0, ".", ",");
+    $avgFormat = number_format($partOfAvg, 0, ".", ",");
+    $avgLogFormat = number_format($partOfAvgLog, 2, ".", ",");
     $date = date("Y-m-d H:i", $lastPlayTime/1000);
     $d = new DateTime($date);
     echo "<tr id='row{$position}'>";
@@ -47,6 +44,19 @@
         echo "<td id='points{$position}' class=mediumCell>{$pointsFormat}</td>";
     }
     echo "<td id='partofavg{$position}' class=mediumCell>{$avgFormat}%</td>";
+    echo "<td id='partofavgtier{$position}' class=smallCell>{$avgLogFormat}</td>";
+    $tierFound = false;
+    for($i=2.5; $i>=(-2.5) && !$tierFound; $i=$i-1)
+    {
+        if($partOfAvgLog>=$i)
+        {
+            $tierFound = true;
+            $num = $i + 0.5;
+            $championTier = $tierLetters[$num];
+        }
+    }
+    if(!$tierFound) $championTier = $tierLetters[-3];
+    echo "<td id='tier{$position}' class=smallCell>{$championTier}</td>";
     echo "<td id='progress{$position}' class=progressCell>{$progressToNextLevel}</td>";
     if($chests)
     {

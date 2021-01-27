@@ -106,6 +106,8 @@
                     <th id='level0'>Level</th>
                     <th id='points0'>Points</th>
                     <th id='partofavg0'>% of average</th>
+                    <th id='partofavgtier0'>Tier Score</th>
+                    <th id='tier0'>Tier</th>
                     <th id='progress0'>Progress</th>
                     <th id='chests0'>Chest</th>
                     <th id='tokens0'>Tokens</th>
@@ -117,6 +119,17 @@
             $count = 0;
             $pointsArray = [];
             $avgDiffSq = [];
+
+            $tierLetters = array(
+                3 => "S+",
+                2 => "S",
+                1 => "A",
+                0 => "B",
+                -1 => "C",
+                -2 => "D",
+                -3 => "D+"
+            );
+
             foreach($mastery as $champion)
             {
                 $totalPts += $champion["championPoints"];
@@ -139,7 +152,10 @@
                 $id = $champion["championId"];
                 $level = $champion["championLevel"];
                 $points = $champion["championPoints"];
-                $partOfAvg = (round($points / $avgPts, 2)*100);
+                $partOfAvg = $points / $avgPts;
+                $logBase = 3;
+                $partOfAvgLog = log($partOfAvg, $logBase);
+                $partOfAvg = round($partOfAvg, 2)*100;
                 $ptsSinceLastLevel = $champion["championPointsSinceLastLevel"];
                 $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
                 $chests = $champion["chestGranted"];
