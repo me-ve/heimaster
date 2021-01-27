@@ -40,17 +40,13 @@
     }
     if($stDev + $avgPts < $points)
     {
-        echo "<td id='points{$position}' style='width:120px; color: #b8e584' class=cell>{$pointsFormat}</td>";
-    }
-    elseif($avgPts - $stDev > $points)
-    {
-        echo "<td id='points{$position}' style='width:120px; color: #ecb3a7' class=cell>{$pointsFormat}</td>";
+        echo "<td id='points{$position}' style='color: #b8e584' class=mediumCell>{$pointsFormat}</td>";
     }
     else
     {
-        echo "<td id='points{$position}' style='width:120px' class=cell>{$pointsFormat}</td>";
+        echo "<td id='points{$position}' class=mediumCell>{$pointsFormat}</td>";
     }
-    echo "<td id='partofavg{$position}' style='width:120px' class=cell>{$avgFormat}%</td>";
+    echo "<td id='partofavg{$position}' class=mediumCell>{$avgFormat}%</td>";
     echo "<td id='progress{$position}' class=progressCell>{$progressToNextLevel}</td>";
     if($chests)
     {
@@ -61,6 +57,6 @@
         echo "<td id='chests{$position}' style='background-color: #6c7b8b;' class=chestCell>no</td>";
     }
     echo "<td id='tokens{$position}' class=tokenCell>{$tokens}</td>";
-    echo "<td id='date{$position}' style='width:240px' class=cell>{$date}</td>";
+    echo "<td id='date{$position}' class=longCell>{$date}</td>";
     echo "</tr>";
 ?>

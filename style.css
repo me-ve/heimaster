@@ -27,7 +27,7 @@ th, #refreshTime
     height: 60px;
     border-radius: 5px;
 }
-.cell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
+.cell, .mediumCell, .longCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
 {
     margin: auto;
     font-size: larger;
@@ -36,6 +36,14 @@ th, #refreshTime
     text-align:center;
     background-color:#778899;
     border-radius: 5px;
+}
+.mediumCell
+{
+    width:120px;
+}
+.longCell
+{
+    width:240px;
 }
 .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
 {
@@ -75,4 +83,14 @@ th, #refreshTime
     background-color:black;
     border-radius:3px;
     padding: 6px 6px 0px 6px;
+}
+#summonerData
+{
+    text-align:left;
+    margin-top:auto;
+    margin-bottom:auto;
+}
+#searchForm
+{
+    width:470px;
 }

@@ -80,7 +80,7 @@
                 echo "</td>";
                 echo "<td>";
                 echo "{$summonerRegion}<br>";
-                echo "<h1 id='summonerData' style='text-align:left; margin-top:auto; margin-bottom:auto;'>{$summonerName}</h1>";
+                echo "<h1 id='summonerData'>{$summonerName}</h1>";
                 foreach($ranked as $queue)
                 {
                     if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";
@@ -93,7 +93,7 @@
                 }
                 ?>
                 </td>
-                <td style='width: 470px'>
+                <td id="searchForm">
                     <?php include ("form.html"); ?>
                 </td>
             </table>
