@@ -118,7 +118,7 @@
             $totalPts = 0;
             $count = 0;
             $pointsArray = [];
-            $avgDiffSq = [];
+            //$avgDiffSq = [];
 
             $tierLetters = array(
                 3 => "S+",
@@ -127,7 +127,7 @@
                 0 => "B",
                 -1 => "C",
                 -2 => "D",
-                -3 => "D+"
+                -3 => "D-"
             );
 
             foreach($mastery as $champion)
@@ -137,16 +137,16 @@
                 array_push($pointsArray, $champion["championPoints"]);
             }
             if($count) $avgPts = $totalPts / $count;
-            $sigmaSq = 0;
+            //$sigmaSq = 0;
             for($i=0; $i<count($pointsArray); $i++)
             {
-                $avgDiff = $pointsArray[$i] - $avgPts;
-                $avgDiffSq[$i] = $avgDiff * $avgDiff;
-                $sigmaSq += $avgDiffSq[$i];
+                //$avgDiff = $pointsArray[$i] - $avgPts;
+                //$avgDiffSq[$i] = $avgDiff * $avgDiff;
+                //$sigmaSq += $avgDiffSq[$i];
             }
             if($count > 1)
-            $sigmaSq /= ($count-1);
-            $stDev = sqrt($sigmaSq);
+            //$sigmaSq /= ($count-1);
+            //$stDev = sqrt($sigmaSq);
             foreach($mastery as $champion)
             {
                 $id = $champion["championId"];

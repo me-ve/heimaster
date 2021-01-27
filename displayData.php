@@ -35,14 +35,7 @@
     {
         echo "<td id='level{$position}' class=levelCell>{$level}</td>";
     }
-    if($stDev + $avgPts < $points)
-    {
-        echo "<td id='points{$position}' style='color: #b8e584' class=mediumCell>{$pointsFormat}</td>";
-    }
-    else
-    {
-        echo "<td id='points{$position}' class=mediumCell>{$pointsFormat}</td>";
-    }
+    echo "<td id='points{$position}' class=mediumCell>{$pointsFormat}</td>";
     echo "<td id='partofavg{$position}' class=mediumCell>{$avgFormat}%</td>";
     echo "<td id='partofavgtier{$position}' class=smallCell>{$avgLogFormat}</td>";
     $tierFound = false;
