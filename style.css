@@ -25,7 +25,6 @@ th, #refreshTime
     background-color:#778899;
     width: 60px;
     height: 60px;
-    margin: auto;
     border-radius: 5px;
 }
 .cell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
