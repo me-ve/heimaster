@@ -1,4 +1,5 @@
 <?php
+//TODO make list of champions sortable
     if($level<5)
     {
         $progressToNextLevel = $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel);

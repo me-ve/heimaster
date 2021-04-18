@@ -4,12 +4,12 @@
         //this file is created only for storing Riot API key
         //if you want to use this tracker you need to retrieve your own
         //and store it in the $key variable
-        //$key="";
+        //TODO implement MVC to insert the key and the other non-constant data outside of code
         require("key.php");
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
-        $gameVersion = "11.3.1";
+        $gameVersion = "11.8.1";
         //receiving summoner id
         require("summonerQuery.php");
         if(isset($summonerData))
@@ -18,6 +18,7 @@
         $summonerLevel = $summonerData['summonerLevel'];
         $summonerIcon = $summonerData['profileIconId'];
         $summonerName = $summonerData['name'];
+        echo "<script>document.title = '$summonerName - Mastery Tracker'</script>";
         //receiving rank
         require("rankedQuery.php");
         if(isset($rankedData))
@@ -36,6 +37,7 @@
                 array_push($ranked, $array);
             }
         }
+        require("mmrQuery.php");
         //receiving champions masteries for summoner
         require("masteryQuery.php");
         if(isset($masteryData))
@@ -118,7 +120,6 @@
             $totalPts = 0;
             $count = 0;
             $pointsArray = [];
-            //$avgDiffSq = [];
 
             $tierLetters = array(
                 3 => "S+",
@@ -137,16 +138,6 @@
                 array_push($pointsArray, $champion["championPoints"]);
             }
             if($count) $avgPts = $totalPts / $count;
-            //$sigmaSq = 0;
-            for($i=0; $i<count($pointsArray); $i++)
-            {
-                //$avgDiff = $pointsArray[$i] - $avgPts;
-                //$avgDiffSq[$i] = $avgDiff * $avgDiff;
-                //$sigmaSq += $avgDiffSq[$i];
-            }
-            if($count > 1)
-            //$sigmaSq /= ($count-1);
-            //$stDev = sqrt($sigmaSq);
             foreach($mastery as $champion)
             {
                 $id = $champion["championId"];
@@ -177,6 +168,7 @@
             }
             ?>
             </table>
+            <script src="sort.js"></script>
             <?php
         }
     }

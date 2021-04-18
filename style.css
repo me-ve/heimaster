@@ -1,96 +1,109 @@
-body
-{
-    background-color:#62708a;
-    color:snow;
-    font-family:'Helvetica';
+body {
+    background-color: #62708a;
+    color: snow;
+    font-family: 'Helvetica';
 }
-table
-{
-    width:100%;
+
+table {
+    width: 100%;
 }
-.input
-{
-    font-family:'Helvetica';
+
+.input {
+    font-family: 'Helvetica';
     background-color: silver;
     border-radius: 5px;
 }
-th, #refreshTime
-{
+
+th,
+#refreshTime {
     color: silver;
     text-align: center;
     margin: auto;
 }
-.championImage
-{
-    background-color:#778899;
+
+.championImage {
+    background-color: #778899;
     width: 60px;
     height: 60px;
     border-radius: 5px;
 }
-.cell, .smallCell, .mediumCell, .longCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
-{
+
+.cell,
+.smallCell,
+.mediumCell,
+.longCell,
+.chestCell,
+.levelCell,
+.positionCell,
+.progressCell,
+.tokenCell {
     margin: auto;
     font-size: larger;
-    padding-left:10px;
-    padding-right:10px;
-    text-align:center;
-    background-color:#778899;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+    background-color: #778899;
     border-radius: 5px;
 }
-.mediumCell
-{
-    width:120px;
+
+.mediumCell {
+    width: 120px;
 }
-.longCell
-{
-    width:240px;
+
+.longCell {
+    width: 240px;
 }
-.smallCell, .chestCell, .levelCell, .positionCell, .progressCell, .tokenCell
-{
+
+.smallCell,
+.chestCell,
+.levelCell,
+.positionCell,
+.progressCell,
+.tokenCell {
     width: 45px;
 }
-#icon
-{
-    width:75px;
-    height:75px;
-    padding-right:10px;
+
+#icon {
+    width: 75px;
+    height: 75px;
+    padding-right: 10px;
 }
-#logo
-{
+
+#logo {
     text-align: center;
     font-weight: bolder;
     font-size: 6em;
     margin: auto;
 }
-#summonerIcon
-{
+
+#summonerIcon {
     width: 75px;
     height: 75px;
     border-radius: 10px;
     border: 2px solid black;
 }
-#summonerLevel
-{
-    font-size:small;
+
+#summonerLevel {
+    font-size: small;
     top: 100%;
     left: 50%;
     width: 75px;
     text-align: center;
     float: left;
 }
-#summonerLevelSpan
-{
-    background-color:black;
-    border-radius:3px;
+
+#summonerLevelSpan {
+    background-color: black;
+    border-radius: 3px;
     padding: 6px 6px 0px 6px;
 }
-#summonerData
-{
-    text-align:left;
-    margin-top:auto;
-    margin-bottom:auto;
+
+#summonerData {
+    text-align: left;
+    margin-top: auto;
+    margin-bottom: auto;
 }
-#searchForm
-{
-    width:470px;
+
+#searchForm {
+    width: 470px;
 }
