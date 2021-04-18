@@ -153,7 +153,6 @@ function ReorganizeTable(arg) {
 row0 = document.getElementById("row0").children;
 for (let cell of row0) {
     let text = (cell.innerText);
-    console.log(text);
     if (text != null) {
         cell.addEventListener("click", function(e) {
             ReorganizeTable(text);
