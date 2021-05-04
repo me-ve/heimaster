@@ -170,7 +170,7 @@
                     }
                 }
                 if($position==1)
-                echo "<script>document.getElementById(`top`).style = `width: 75%; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$codeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
+                echo "<script>document.getElementById(`top`).style = `width: 1215px; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$codeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
                 require("displayData.php");
                 $position++;
             }
