@@ -9,7 +9,9 @@
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
-        $gameVersion = "11.8.1";
+        require("versionQuery.php");
+        if(isset($versionData)){
+        $gameVersion = $versionData[0];
         //receiving summoner id
         require("summonerQuery.php");
         if(isset($summonerData))
@@ -177,5 +179,6 @@
         include ("form.html");
         echo "Please input the valid Summoner name.";
     }
+}
 }
 ?>
