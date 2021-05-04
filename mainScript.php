@@ -5,6 +5,7 @@
         //if you want to use this tracker you need to retrieve your own
         //and store it in the $key variable
         //TODO implement MVC to insert the key and the other non-constant data outside of code
+        echo "<script>document.getElementById('logo').textContent = '';</script>";
         require("key.php");
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
@@ -68,16 +69,17 @@
             $champions = [];
             foreach($championsData["data"] as $champion) {
                 $array = [
+                    "id" => $champion["id"],
                     "key" => $champion["key"],
                     "name" => $champion["name"],
                     "image" => $champion["image"]["full"]
                 ];
                 array_push($champions, $array);
             }
-            ?>
-            <table id='summoner'>
-                <td id='icon'>
-                <?php
+            $mostPlayed = $mastery[0];
+                echo "<div id='top'>";
+                echo "<table id='summoner' style='height: 100%; margin: auto; padding: 0px 0 0 100px;'>";
+                echo "<td id='icon'>";
                 echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
                 echo "<div id='summonerLevel'>";
                 echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
@@ -101,7 +103,7 @@
                     <?php include ("form.html"); ?>
                 </td>
             </table>
-            
+            </div>
             <table id='champions'>
                 <tr id='row0'>
                     <th id='position0'>#</th>
@@ -156,15 +158,19 @@
                 $tokens = $champion["tokensEarned"];
                 $name = "";
                 $iconURL = "";
+                $codeName = "";
                 foreach($champions as $c)
                 {
                     if($id == $c["key"])
                     {
+                        $codeName = $c["id"];
                         $name = $c["name"];
                         $icon = $c["image"];
                         $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }
+                if($position==1)
+                echo "<script>document.getElementById(`top`).style = `width: 75%; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$codeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
                 require("displayData.php");
                 $position++;
             }
