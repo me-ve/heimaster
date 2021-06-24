@@ -168,13 +168,15 @@
                         $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }
-                if($position==1)
-                echo "<script>document.getElementById(`top`).style = `width: 1215px; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$codeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
+                if($position == 1){
+                    $firstCodeName = $codeName;
+                }
                 require("displayData.php");
                 $position++;
             }
+            echo "</table>";
+            echo "<script>document.getElementById(`top`).style = `width: 1215px; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
             ?>
-            </table>
             <script src="sort.js"></script>
             <?php
         }
