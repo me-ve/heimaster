@@ -25,7 +25,7 @@ require_once("timeElapsed.php");
     $avgLogFormat = number_format($partOfAvgLog, 2, ".", ",");
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
-    echo "<tr id='row{$position}'>";
+    echo "<tr id='row{$position}' hidden>";
     echo "<td id='position{$position}' class=positionCell>{$position}</td>";
     echo "<td id='image{$position}' class=championImage><img src='{$iconURL}' class='championImage' alt='{$name}'></td>";
     echo "<td id='name{$position}' class=cell>{$name}</td>";

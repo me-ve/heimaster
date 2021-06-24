@@ -176,6 +176,11 @@
             ?>
             </table>
             <script src="sort.js"></script>
+            <script>
+                for (let i = 1; i <= <?php echo $count ?>; i++) {
+                    setTimeout(() => document.getElementById(`row${i}`).hidden = false, i * 20);
+                }
+            </script>
             <?php
         }
     }
