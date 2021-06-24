@@ -1,5 +1,5 @@
 class Champion {
-    constructor(position, image, name, level, points, avg_percent, tier_score, tier, progress, chest, tokens, last_played) {
+    constructor(position, image, name, level, points, avg_percent, tier_score, tier, progress, chest, tokens, last_played, date) {
         this.position = position;
         this.image = image;
         this.name = name;
@@ -12,12 +12,12 @@ class Champion {
         this.chest = chest;
         this.tokens = tokens;
         this.last_played = last_played;
+        this.date = date;
     }
 }
 //TODO generate events for sorting in row0 for each column
 //get each champion
 function getChampionFromRow(index) {
-    console.log(index);
     return new Champion(
         document.getElementById(`position${index}`).valueOf().textContent,
         document.getElementById(`image${index}`).valueOf().children[0].src,
@@ -30,6 +30,7 @@ function getChampionFromRow(index) {
         document.getElementById(`progress${index}`).valueOf().textContent,
         document.getElementById(`chests${index}`).valueOf().textContent,
         document.getElementById(`tokens${index}`).valueOf().textContent,
+        document.getElementById(`date${index}`).dataset.time,
         document.getElementById(`date${index}`).valueOf().textContent
     );
 }
@@ -147,7 +148,8 @@ function ReorganizeTable(arg) {
             document.getElementById(`chests${index}`).style = 'background-color: #6c7b8b;';
         }
         document.getElementById(`tokens${index}`).innerText = champion.tokens;
-        document.getElementById(`date${index}`).innerText = champion.last_played;
+        document.getElementById(`date${index}`).innerText = champion.date;
+        document.getElementById(`date${index}`).dataset.time = champion.last_played;
     }
 }
 

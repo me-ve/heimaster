@@ -66,6 +66,6 @@ require_once("timeElapsed.php");
     $currentDateNum = strtotime($currentDate);
     $dateNum = strtotime($date);
     $timeChange = time_elapsed($currentDateNum - $dateNum);
-    echo "<td id='date{$position}' class=longCell>{$timeChange}</td>";
+    echo "<td id='date{$position}' data-time='$date' class=longCell>{$timeChange}</td>";
     echo "</tr>";
 ?>
