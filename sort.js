@@ -17,6 +17,7 @@ class Champion {
 //TODO generate events for sorting in row0 for each column
 //get each champion
 function getChampionFromRow(index) {
+    console.log(index);
     return new Champion(
         document.getElementById(`position${index}`).valueOf().textContent,
         document.getElementById(`image${index}`).valueOf().children[0].src,

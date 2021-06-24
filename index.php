@@ -9,6 +9,7 @@
             MASTERY TRACKER
         </p>
     <?php
+    $currentDate = date("Y-m-d H:i:s");
     if(!(isset($_GET["summonerName"])&&isset($_GET["region"])))
     {
         include ("form.html");
@@ -17,8 +18,7 @@
     ?>
     <p id="refreshTime">
         <?php
-        $date = date("Y-m-d H:i:s");
-        echo "Last refreshed in {$date}";
+        echo "Last refreshed in {$currentDate}";
         ?>
     </p>
     </body>

@@ -134,7 +134,6 @@
                 -2 => "D",
                 -3 => "D-"
             );
-
             foreach($mastery as $champion)
             {
                 $totalPts += $champion["championPoints"];
