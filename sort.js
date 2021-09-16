@@ -19,19 +19,19 @@ class Champion {
 //get each champion
 function getChampionFromRow(index) {
     return new Champion(
-        document.getElementById(`position${index}`).valueOf().textContent,
-        document.getElementById(`image${index}`).valueOf().children[0].src,
-        document.getElementById(`name${index}`).valueOf().textContent,
-        document.getElementById(`level${index}`).valueOf().textContent,
-        document.getElementById(`points${index}`).valueOf().textContent,
-        document.getElementById(`partofavg${index}`).valueOf().textContent,
-        document.getElementById(`partofavgtier${index}`).valueOf().textContent,
-        document.getElementById(`tier${index}`).valueOf().textContent,
-        document.getElementById(`progress${index}`).valueOf().textContent,
-        document.getElementById(`chests${index}`).valueOf().textContent,
-        document.getElementById(`tokens${index}`).valueOf().textContent,
-        document.getElementById(`date${index}`).dataset.time,
-        document.getElementById(`date${index}`).valueOf().textContent
+        document.getElementById(`position[${index}]`).valueOf().textContent,
+        document.getElementById(`image[${index}]`).valueOf().children[0].src,
+        document.getElementById(`name[${index}]`).valueOf().textContent,
+        document.getElementById(`level[${index}]`).valueOf().textContent,
+        document.getElementById(`points[${index}]`).valueOf().textContent,
+        document.getElementById(`partofavg[${index}]`).valueOf().textContent,
+        document.getElementById(`partofavgtier[${index}]`).valueOf().textContent,
+        document.getElementById(`tier[${index}]`).valueOf().textContent,
+        document.getElementById(`progress[${index}]`).valueOf().textContent,
+        document.getElementById(`chests[${index}]`).valueOf().textContent,
+        document.getElementById(`tokens[${index}]`).valueOf().textContent,
+        document.getElementById(`date[${index}]`).dataset.time,
+        document.getElementById(`date[${index}]`).valueOf().textContent
     );
 }
 let championsCount = document.getElementById("champions").children[0].children.length - 1;
@@ -126,34 +126,34 @@ function ReorganizeTable(arg) {
     let SortedChampions = SortBy(arg);
     for (let index = 1; index <= championsCount; index++) {
         let champion = SortedChampions[index - 1];
-        document.getElementById(`position${index}`).innerText = champion.position;
-        document.getElementById(`image${index}`).innerHTML =
+        document.getElementById(`position[${index}]`).innerText = champion.position;
+        document.getElementById(`image[${index}]`).innerHTML =
             `<img src=\"${champion.image}\" class=\"championImage\" alt=\"${champion.name}\">`;
-        document.getElementById(`name${index}`).innerText = champion.name;
-        document.getElementById(`level${index}`).innerText = champion.level;
+        document.getElementById(`name[${index}]`).innerText = champion.name;
+        document.getElementById(`level[${index}]`).innerText = champion.level;
         if (champion.level >= 5) {
-            document.getElementById(`level${index}`).style = 'color: #ceb572;';
+            document.getElementById(`level[${index}]`).style = 'color: #ceb572;';
         } else {
-            document.getElementById(`level${index}`).style = '';
+            document.getElementById(`level[${index}]`).style = '';
         }
-        document.getElementById(`points${index}`).innerText = champion.points;
-        document.getElementById(`partofavg${index}`).innerText = champion.avg_percent;
-        document.getElementById(`partofavgtier${index}`).innerText = champion.tier_score;
-        document.getElementById(`tier${index}`).innerText = champion.tier;
-        document.getElementById(`progress${index}`).innerText = champion.progress;
-        document.getElementById(`chests${index}`).innerText = champion.chest;
+        document.getElementById(`points[${index}]`).innerText = champion.points;
+        document.getElementById(`partofavg[${index}]`).innerText = champion.avg_percent;
+        document.getElementById(`partofavgtier[${index}]`).innerText = champion.tier_score;
+        document.getElementById(`tier[${index}]`).innerText = champion.tier;
+        document.getElementById(`progress[${index}]`).innerText = champion.progress;
+        document.getElementById(`chests[${index}]`).innerText = champion.chest;
         if (champion.chest == "yes") {
-            document.getElementById(`chests${index}`).style = 'background-color: #ceb572;';
+            document.getElementById(`chests[${index}]`).style = 'background-color: #ceb572;';
         } else {
-            document.getElementById(`chests${index}`).style = 'background-color: #6c7b8b;';
+            document.getElementById(`chests[${index}]`).style = 'background-color: #6c7b8b;';
         }
-        document.getElementById(`tokens${index}`).innerText = champion.tokens;
-        document.getElementById(`date${index}`).innerText = champion.date;
-        document.getElementById(`date${index}`).dataset.time = champion.last_played;
+        document.getElementById(`tokens[${index}]`).innerText = champion.tokens;
+        document.getElementById(`date[${index}]`).innerText = champion.date;
+        document.getElementById(`date[${index}]`).dataset.time = champion.last_played;
     }
 }
 
-row0 = document.getElementById("row0").children;
+row0 = document.getElementById("row[0]").children;
 for (let cell of row0) {
     let text = (cell.innerText);
     if (text != null) {

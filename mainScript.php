@@ -105,19 +105,19 @@
             </table>
             </div>
             <table id='champions'>
-                <tr id='row0'>
-                    <th id='position0'>#</th>
-                    <th id='image0'></th>
-                    <th id='name0'>Champion</th>
-                    <th id='level0'>Level</th>
-                    <th id='points0'>Points</th>
-                    <th id='partofavg0'>% of average</th>
-                    <th id='partofavgtier0'>Tier Score</th>
-                    <th id='tier0'>Tier</th>
-                    <th id='progress0'>Progress</th>
-                    <th id='chests0'>Chest</th>
-                    <th id='tokens0'>Tokens</th>
-                    <th id='date0'>Last played</th>
+                <tr id='row[0]'>
+                    <th id='position[0]'>#</th>
+                    <th id='image[0]'></th>
+                    <th id='name[0]'>Champion</th>
+                    <th id='level[0]'>Level</th>
+                    <th id='points[0]'>Points</th>
+                    <th id='partofavg[0]'>% of average</th>
+                    <th id='partofavgtier[0]'>Tier Score</th>
+                    <th id='tier[0]'>Tier</th>
+                    <th id='progress[0]'>Progress</th>
+                    <th id='chests[0]'>Chest</th>
+                    <th id='tokens[0]'>Tokens</th>
+                    <th id='date[0]'>Last played</th>
                 </tr>
             <?php
             $position = 1;
