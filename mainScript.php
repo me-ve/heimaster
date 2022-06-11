@@ -1,4 +1,5 @@
 <?php
+    require("tiers.php");
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //import function to make queries from APIs
@@ -117,7 +118,7 @@
                         case "RANKED_FLEX_SR": $type = "Flex"; break;
                     }
                     $tier = ucfirst(strtolower($queue['tier']));
-                    $rank  = $queue["rank"];
+                    $rank = $queue["rank"];
                     $LP = $queue["leaguePoints"];
                     $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
                     echo "{$rankDisplay} ";
@@ -149,16 +150,6 @@
             $totalPts = 0;
             $count = 0;
             $pointsArray = [];
-
-            $tierLetters = array(
-                3 => "S+",
-                2 => "S",
-                1 => "A",
-                0 => "B",
-                -1 => "C",
-                -2 => "D",
-                -3 => "D-"
-            );
             foreach($mastery as $champion)
             {
                 $totalPts += $champion["championPoints"];
