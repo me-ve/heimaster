@@ -13,7 +13,15 @@
         $dotenv->load();
         //loading key
         $dotenv->required('API_KEY');
-        $key = $_ENV['API_KEY'];
+        $options = array(
+            'http' => array(
+            'method' => "GET",
+            'header' => 
+                "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0)\n".
+                "X-Riot-Token: ".$_ENV["API_KEY"]
+            )
+        );
+        $context = stream_context_create($options);
         //getting summoner data from form
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
