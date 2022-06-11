@@ -7,6 +7,7 @@
         //TODO implement MVC to insert the key and the other non-constant data outside of code
         echo "<script>document.getElementById('logo').textContent = '';</script>";
         require("key.php");
+        ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";

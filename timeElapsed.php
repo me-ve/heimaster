@@ -4,7 +4,7 @@ function time_elapsed($sec){
     $HOUR = 60 * $MINUTE;
     $DAY = 24 * $HOUR;
     $WEEK = 7 * $DAY;
-    $YEAR = 365.25 * $DAY;
+    $YEAR = 365 * $DAY + 6 * $HOUR;
     $MONTH = $YEAR / 12;
     $count = "some";
     $unit = "time";
