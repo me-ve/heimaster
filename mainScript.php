@@ -191,7 +191,10 @@
                 $position++;
             }
             echo "</table>";
-            echo "<script>document.getElementById(`top`).style = `width: 1215px; margin: auto; background: url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg) no-repeat center 15% / cover; height:360px; border-radius: 5px;`</script>";
+            echo "<script>document.getElementById(`top`).style".
+            "=`max-width: 1215px; margin: auto; background: rgba(0, 0, 0, 0.7) url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg) no-repeat center 15% / cover;".
+            "height:360px; background-blend-mode: darken; border-radius: 5px;`".
+            "</script>";
             ?>
             <script src="sort.js"></script>
             <?php

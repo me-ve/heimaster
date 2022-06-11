@@ -3,6 +3,7 @@
         <title>Mastery Tracker</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/helvetica-neue-9">
     </head>
     <body>
         <p id="logo">
