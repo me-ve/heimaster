@@ -1,16 +1,24 @@
 <?php
     if(isset($_GET["summonerName"])&&isset($_GET["region"]))
     {
-        //this file is created only for storing Riot API key
-        //if you want to use this tracker you need to retrieve your own
-        //and store it in the $key variable
-        //TODO implement MVC to insert the key and the other non-constant data outside of code
+        //change title to the Summoner name
         echo "<script>document.getElementById('logo').textContent = '';</script>";
-        require("key.php");
+        //setting user-agent
         ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
+        //initializing dotenv
+        if (file_exists('vendor/autoload.php')) {
+            require_once('vendor/autoload.php');
+        }
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+        $dotenv->load();
+        //loading key
+        $dotenv->required('API_KEY');
+        $key = $_ENV['API_KEY'];
+        //getting summoner data from form
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
+        //receiving current League version
         require("versionQuery.php");
         if(isset($versionData)){
         $gameVersion = $versionData[0];

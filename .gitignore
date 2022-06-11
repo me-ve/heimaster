@@ -1,2 +1,3 @@
 # This file is storing RiotAPI key which is sensitive information
-key.php
+.env
+vendor
