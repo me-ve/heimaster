@@ -20,10 +20,12 @@ function getCell(columnName, index){
     return document.getElementById(`${columnName}[${index}]`);
 }
 function getValueOfCell(columnName, index){
-    return getCell(columnName, index).valueOf;
+    let cell = getCell(columnName, index);
+    return cell.valueOf();
 }
 function getTextContentFromCell(columnName, index){
-    return getValueOfCell.textContent();
+    let value = getValueOfCell(columnName, index);
+    return value.textContent;
 }
 function getChampionFromRow(index) {
     return new Champion(
@@ -38,8 +40,8 @@ function getChampionFromRow(index) {
         getTextContentFromCell("progress", index),
         getTextContentFromCell("chests", index),
         getTextContentFromCell("tokens", index),
-        getCell("date").dataset.time,
-        getTextContentFromCell("date")
+        getCell("date", index).dataset.time,
+        getTextContentFromCell("date", index)
     );
 }
 let championsCount = document.getElementById("champions").children[0].children.length - 1;
