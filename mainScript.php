@@ -1,10 +1,10 @@
 <?php
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
+        //import function to make queries from APIs
+        require("doQuery.php");
         //change title to the Summoner name
         echo "<script>document.getElementById('logo').textContent = '';</script>";
-        //setting user-agent
-        ini_set('user_agent', 'Mozilla/4.0 (compatible; MSIE 6.0)');
         //initializing dotenv
         if (file_exists('vendor/autoload.php')) {
             require_once('vendor/autoload.php');
@@ -31,7 +31,9 @@
         if(isset($versionData)){
         $gameVersion = $versionData[0];
         //receiving summoner id
-        require("summonerQuery.php");
+        $summonerData = do_query(
+            $site, "lol/summoner/v4/summoners/by-name", $summonerName, $context
+        );
         if(isset($summonerData))
         {
         $summonerId = $summonerData['id'];
@@ -40,7 +42,9 @@
         $summonerName = $summonerData['name'];
         echo "<script>document.title = '$summonerName - Mastery Tracker'</script>";
         //receiving rank
-        require("rankedQuery.php");
+        $rankedData = do_query(
+            $site, "lol/league/v4/entries/by-summoner", $summonerId, $context
+        );
         if(isset($rankedData))
         {
             $ranked = [];
@@ -59,7 +63,9 @@
         }
         //require("mmrQuery.php");
         //receiving champions masteries for summoner
-        require("masteryQuery.php");
+        $masteryData = do_query(
+            $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summonerId, $context
+        );
         if(isset($masteryData))
         {
             $mastery = [];
