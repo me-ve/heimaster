@@ -1,5 +1,6 @@
 <?php
 function time_elapsed($sec){
+    $between = fn($a, $b, $c) => $a <= $b && $b < $c;
     $MINUTE = 60;
     $HOUR = 60 * $MINUTE;
     $DAY = 24 * $HOUR;
@@ -8,26 +9,26 @@ function time_elapsed($sec){
     $MONTH = $YEAR / 12;
     $count = "some";
     $unit = "time";
-    if($sec>=0 && $sec<2*$MINUTE) {
+    if($between(0, $sec, 2*$MINUTE)) {
         if($sec == 1){
             $count = "a";
             $unit = "second";
         }
         else $unit = "seconds";
         $count = $sec;
-    } else if($sec>=2*$MINUTE && $sec<2*$HOUR) {
+    } else if($between(2*$MINUTE, $sec, 2*$HOUR)) {
         $unit = "minutes";
         $count = round($sec/$MINUTE);
-    } else if($sec>=2*$HOUR && $sec<2*$DAY) {
+    } else if($between(2*$HOUR, $sec, 2*$DAY)) {
         $unit = "hours";
         $count = round($sec/($HOUR));
-    } else if($sec>=2*$DAY && $sec<2*$WEEK) {
+    } else if($between(2*$DAY, $sec, 2*$WEEK)) {
         $unit = "days";
         $count = round($sec/($DAY));
-    } else if($sec>=2*$WEEK && $sec<2*$MONTH) {
+    } else if($between(2*$WEEK, $sec, 2*$MONTH)) {
         $unit = "weeks";
         $count = round($sec/($WEEK));
-    } else if($sec>=2*$MONTH && $sec<2*$YEAR) {
+    } else if($between(2*$MONTH, $sec, 2*$YEAR)) {
         $unit = "months";
         $count = round($sec/($MONTH));
     } else {

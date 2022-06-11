@@ -16,22 +16,30 @@ class Champion {
     }
 }
 //TODO generate events for sorting in row0 for each column
-//get each champion
+function getCell(columnName, index){
+    return document.getElementById(`${columnName}[${index}]`);
+}
+function getValueOfCell(columnName, index){
+    return getCell(columnName, index).valueOf;
+}
+function getTextContentFromCell(columnName, index){
+    return getValueOfCell.textContent();
+}
 function getChampionFromRow(index) {
     return new Champion(
-        document.getElementById(`position[${index}]`).valueOf().textContent,
-        document.getElementById(`image[${index}]`).valueOf().children[0].src,
-        document.getElementById(`name[${index}]`).valueOf().textContent,
-        document.getElementById(`level[${index}]`).valueOf().textContent,
-        document.getElementById(`points[${index}]`).valueOf().textContent,
-        document.getElementById(`partofavg[${index}]`).valueOf().textContent,
-        document.getElementById(`partofavgtier[${index}]`).valueOf().textContent,
-        document.getElementById(`tier[${index}]`).valueOf().textContent,
-        document.getElementById(`progress[${index}]`).valueOf().textContent,
-        document.getElementById(`chests[${index}]`).valueOf().textContent,
-        document.getElementById(`tokens[${index}]`).valueOf().textContent,
-        document.getElementById(`date[${index}]`).dataset.time,
-        document.getElementById(`date[${index}]`).valueOf().textContent
+        getTextContentFromCell("position", index),
+        getValueOfCell("image", index).children[0].src,
+        getTextContentFromCell("name", index),
+        getTextContentFromCell("level", index),
+        getTextContentFromCell("points", index),
+        getTextContentFromCell("partofavg", index),
+        getTextContentFromCell("partofavgtier", index),
+        getTextContentFromCell("tier", index),
+        getTextContentFromCell("progress", index),
+        getTextContentFromCell("chests", index),
+        getTextContentFromCell("tokens", index),
+        getCell("date").dataset.time,
+        getTextContentFromCell("date")
     );
 }
 let championsCount = document.getElementById("champions").children[0].children.length - 1;
@@ -157,7 +165,7 @@ row0 = document.getElementById("row[0]").children;
 for (let cell of row0) {
     let text = (cell.innerText);
     if (text != null) {
-        cell.addEventListener("click", function(e) {
+        cell.addEventListener("click", function() {
             ReorganizeTable(text);
         });
     }

@@ -1,5 +1,5 @@
 <?php
-    if(isset($_GET["summonerName"])&&isset($_GET["region"]))
+    if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //change title to the Summoner name
         echo "<script>document.getElementById('logo').textContent = '';</script>";
@@ -44,12 +44,12 @@
                     "rank" => $queue["rank"],
                     "leaguePoints" => $queue["leaguePoints"],
                     "wins" => $queue["wins"],
-                    "loses" => $queue["loses"]
+                    "loses" => $queue["losses"]
                 ];
                 array_push($ranked, $array);
             }
         }
-        require("mmrQuery.php");
+        //require("mmrQuery.php");
         //receiving champions masteries for summoner
         require("masteryQuery.php");
         if(isset($masteryData))
@@ -98,8 +98,10 @@
                 echo "<h1 id='summonerData'>{$summonerName}</h1>";
                 foreach($ranked as $queue)
                 {
-                    if($queue["queueType"] == "RANKED_SOLO_5x5") $type = "Solo";
-                    if($queue["queueType"] == "RANKED_FLEX_SR") $type = "Flex";
+                    switch($queue["queueType"]){
+                        case "RANKED_SOLO_5x5": $type = "Solo"; break;
+                        case "RANKED_FLEX_SR": $type = "Flex"; break;
+                    }
                     $tier = ucfirst(strtolower($queue['tier']));
                     $rank  = $queue["rank"];
                     $LP = $queue["leaguePoints"];
