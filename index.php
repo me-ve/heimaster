@@ -1,3 +1,4 @@
+<!DOCTYPE HTML>
 <html>
     <head>
         <title>Mastery Tracker</title>
@@ -11,7 +12,7 @@
         </p>
     <?php
     $currentDate = date("Y-m-d H:i:s");
-    if(!(isset($_GET["summonerName"])&&isset($_GET["region"])))
+    if(!(isset($_GET["summonerName"], $_GET["region"])))
     {
         include ("form.html");
     }

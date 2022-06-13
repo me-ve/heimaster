@@ -2,6 +2,8 @@
     require("createElements.php");
     require("executeJSCode.php");
     require("tiers.php");
+    require_once("summoner.php");
+    require_once("champions.php");
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //import function to make queries from APIs
@@ -39,14 +41,18 @@
         );
         if(isset($summonerData))
         {
-        $summonerId = $summonerData['id'];
-        $summonerLevel = $summonerData['summonerLevel'];
-        $summonerIcon = $summonerData['profileIconId'];
-        $summonerName = $summonerData['name'];
-        execute_JS_code("document.title = '$summonerName - Mastery Tracker'");
+            $summoner = new Summoner(
+                $summonerData['id'],
+                $_GET["region"],
+                $summonerData['name'],
+                $summonerData['profileIconId'],
+                $summonerData['summonerLevel'],
+                array()
+            );
+            execute_JS_code("document.title = '{$summoner->name} - Mastery Tracker'");
         //receiving rank
         $rankedData = do_query(
-            $site, "lol/league/v4/entries/by-summoner", $summonerId, $context
+            $site, "lol/league/v4/entries/by-summoner", $summoner->id, $context
         );
         if(isset($rankedData))
         {
@@ -67,7 +73,7 @@
         //require("mmrQuery.php");
         //receiving champions masteries for summoner
         $masteryData = do_query(
-            $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summonerId, $context
+            $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summoner->id, $context
         );
         if(isset($masteryData))
         {
@@ -93,28 +99,27 @@
         if(isset($championsData))
         {
             $champions = [];
-            foreach($championsData["data"] as $champion) {
-                $array = [
-                    "id" => $champion["id"],
-                    "key" => $champion["key"],
-                    "name" => $champion["name"],
-                    "image" => $champion["image"]["full"]
-                ];
-                array_push($champions, $array);
+            foreach($championsData["data"] as $championArray) {
+                $champion = new Champion(
+                    $championArray["id"],
+                    $championArray["key"],
+                    $championArray["name"],
+                    $championArray["image"]["full"]
+                );
+                array_push($champions, $champion);
             }
             $mostPlayed = $mastery[0];
             echo
                 "<div id='top'>".
                 "<table id='summoner'>";
-            $icon = create_img("summonerIcon", "{$ddragonURL}/img/profileicon/{$summonerIcon}.png");
-            $summonerLevelSpan = create_span("summonerLevelSpan", $summonerLevel);
-            $summonerLevelDiv = create_div("summonerLevel", $summonerLevelSpan);
+            $icon = create_img("summonerIcon", "{$ddragonURL}/img/profileicon/{$summoner->icon}.png");
+            $summonerLevelDiv = create_div("summonerLevel", create_span("summonerLevelSpan", $summoner->level));
             $iconTd = create_td("icon", $icon.$summonerLevelDiv);
             echo
                 $iconTd.
                 "<td>".
                 "{$summonerRegion}<br>".
-                create_tags("h1", ["id"=>"summonerData"], true, $summonerName);
+                create_tags("h1", ["id"=>"summonerData"], true, $summoner->name);
             foreach($ranked as $queue)
             {
                 switch($queue["queueType"]){
@@ -155,7 +160,7 @@
                     <?php
                     $headersHTML = "";
                     foreach($headers as $id => $name){
-                        $headersHTML .= create_th("$id[0]", $name);
+                        $headersHTML .= create_th("{$id}[0]", $name);
                     }
                     echo $headersHTML;
                     ?>
@@ -191,11 +196,11 @@
                 $codeName = "";
                 foreach($champions as $c)
                 {
-                    if($id == $c["key"])
+                    if($id == $c->key)
                     {
-                        $codeName = $c["id"];
-                        $name = $c["name"];
-                        $icon = $c["image"];
+                        $codeName = $c->id;
+                        $name = $c->name;
+                        $icon = $c->image;
                         $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                     }
                 }

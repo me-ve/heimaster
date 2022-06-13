@@ -40,6 +40,7 @@ th,
 .progressCell,
 .tokenCell {
     margin: auto;
+    height: 60px;
     font-size: larger;
     padding-left: 10px;
     padding-right: 10px;

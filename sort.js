@@ -17,20 +17,17 @@ class Champion {
 }
 //TODO generate events for sorting in row0 for each column
 function getCell(columnName, index){
-    return document.getElementById(`${columnName}[${index}]`);
-}
-function getValueOfCell(columnName, index){
-    let cell = getCell(columnName, index);
+    let cell = document.getElementById(`${columnName}[${index}]`);
     return cell.valueOf();
 }
 function getTextContentFromCell(columnName, index){
-    let value = getValueOfCell(columnName, index);
-    return value.textContent;
+    let cell = getCell(columnName, index);
+    return cell.textContent;
 }
 function getChampionFromRow(index) {
     return new Champion(
         getTextContentFromCell("position", index),
-        getValueOfCell("image", index).children[0].src,
+        getCell("image", index).children[0].src,
         getTextContentFromCell("name", index),
         getTextContentFromCell("level", index),
         getTextContentFromCell("points", index),
@@ -49,8 +46,10 @@ let championsCount = document.getElementById("champions").children[0].children.l
 function getTierValue(tier) {
     switch (tier) {
         case "S+":
-            return 3;
+            return 4;
         case "S":
+            return 3;
+        case "S-":
             return 2;
         case "A":
             return 1;
@@ -58,10 +57,12 @@ function getTierValue(tier) {
             return 0;
         case "C":
             return -1;
-        case "D":
+        case "D+":
             return -2;
-        case "D-":
+        case "D":
             return -3;
+        case "D-":
+            return -4;
     }
 }
 

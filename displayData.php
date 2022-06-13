@@ -23,18 +23,23 @@
     $currentDateNum = strtotime($currentDate);
     $dateNum = strtotime($date);
     $timeChange = time_elapsed($currentDateNum - $dateNum);
-    $cells = 
-        create_td("position[$position]", "$position", "positionCell").
-        create_td("image[$position]", create_img("", $iconURL, "championImage", $name), "championImage").
-        create_td("name[$position]", $name, "cell").
-        create_td("level[$position]", "$level", "levelCell", $levelStyle).
-        create_td("points[$position]", "$pointsFormat", "mediumCell").
-        create_td("partofavg[$position]", "$avgFormat%", "mediumCell").
-        create_td("partofavgtier[$position]", "$avgLogFormat", "smallCell").
-        create_td("tier[$position", "$tier->tierSymbol", "smallCell").
-        create_td("progress[$position]", "$progressToNextLevel", "progressCell").
-        create_td("chests[$position]", $chest, "chestCell", "background-color: $chestsColor").
-        create_td("tokens[$position]", "$tokens", "tokenCell").
-        create_tags("td", ["id"=>"date[$position]", "data-time"=>"$date", "class"=>"longCell"], true, "$timeChange");
-    echo create_tags("tr", ["id"=>"row[$position]"], true, $cells)
+    $cells = [
+        ["position[$position]", "$position", "positionCell"],
+        ["image[$position]", create_img("", $iconURL, "championImage", $name), "championImage"],
+        ["name[$position]", $name, "cell"],
+        ["level[$position]", "$level", "levelCell", $levelStyle],
+        ["points[$position]", "$pointsFormat", "mediumCell"],
+        ["partofavg[$position]", "$avgFormat%", "mediumCell"],
+        ["partofavgtier[$position]", "$avgLogFormat", "smallCell"],
+        ["tier[$position]", "$tier->tierSymbol", "smallCell"],
+        ["progress[$position]", "$progressToNextLevel", "progressCell"],
+        ["chests[$position]", $chest, "chestCell", "background-color: $chestsColor"],
+        ["tokens[$position]", "$tokens", "tokenCell"]
+    ];
+    $cellsString = "";
+    foreach ($cells as $cell){
+        $cellsString .= create_td($cell[0], $cell[1], $cell[2], isset($cell[3]) ? $cell[3] : "");
+    }
+    $cellsString .= create_tags("td", ["id"=>"date[$position]", "data-time"=>"$date", "class"=>"longCell"], true, "$timeChange");
+    echo create_tags("tr", ["id"=>"row[$position]"], true, $cellsString)
 ?>
