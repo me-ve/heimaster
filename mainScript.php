@@ -1,4 +1,5 @@
 <?php
+    require("createElements.php");
     require("executeJSCode.php");
     require("tiers.php");
     if(isset($_GET["summonerName"], $_GET["region"]))
@@ -102,49 +103,62 @@
                 array_push($champions, $array);
             }
             $mostPlayed = $mastery[0];
-                echo "<div id='top'>";
-                echo "<table id='summoner'>";
-                echo "<td id='icon'>";
-                echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
-                echo "<div id='summonerLevel'>";
-                echo "<span id='summonerLevelSpan'>{$summonerLevel}</span></div>";
-                echo "</td>";
-                echo "<td>";
-                echo "{$summonerRegion}<br>";
-                echo "<h1 id='summonerData'>{$summonerName}</h1>";
-                foreach($ranked as $queue)
-                {
-                    switch($queue["queueType"]){
-                        case "RANKED_SOLO_5x5": $type = "Solo"; break;
-                        case "RANKED_FLEX_SR": $type = "Flex"; break;
-                    }
-                    $tier = ucfirst(strtolower($queue['tier']));
-                    $rank = $queue["rank"];
-                    $LP = $queue["leaguePoints"];
-                    $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
-                    echo "{$rankDisplay} ";
+            echo
+                "<div id='top'>".
+                "<table id='summoner'>";
+            $icon = create_img("summonerIcon", "{$ddragonURL}/img/profileicon/{$summonerIcon}.png");
+            $summonerLevelSpan = create_span("summonerLevelSpan", $summonerLevel);
+            $summonerLevelDiv = create_div("summonerLevel", $summonerLevelSpan);
+            $iconTd = create_td("icon", $icon.$summonerLevelDiv);
+            echo
+                $iconTd.
+                "<td>".
+                "{$summonerRegion}<br>".
+                create_tags("h1", ["id"=>"summonerData"], true, $summonerName);
+            foreach($ranked as $queue)
+            {
+                switch($queue["queueType"]){
+                    case "RANKED_SOLO_5x5": $type = "Solo"; break;
+                    case "RANKED_FLEX_SR": $type = "Flex"; break;
                 }
-                ?>
-                </td>
-                <td id="searchForm">
-                    <?php include ("form.html"); ?>
-                </td>
+                $tier = ucfirst(strtolower($queue['tier']));
+                $rank = $queue["rank"];
+                $LP = $queue["leaguePoints"];
+                $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
+                echo "{$rankDisplay} ";
+            }
+            ?>
+            </td>
+            <td id="searchForm">
+                <?php include ("form.html"); ?>
+            </td>
             </table>
             </div>
+            <?php
+            $headers = [
+                "position" => "#",
+                "image" => "",
+                "name" => "Champion",
+                "level" => "Level",
+                "points" => "Points",
+                "partofavg" => "% of average",
+                "partofavgtier" => "Tier Score",
+                "tier" => "Tier",
+                "progress" => "Progress",
+                "chests" => "Chest",
+                "tokens" => "Tokens",
+                "date" => "Last played",
+            ];
+            ?>
             <table id='champions'>
                 <tr id='row[0]'>
-                    <th id='position[0]'>#</th>
-                    <th id='image[0]'></th>
-                    <th id='name[0]'>Champion</th>
-                    <th id='level[0]'>Level</th>
-                    <th id='points[0]'>Points</th>
-                    <th id='partofavg[0]'>% of average</th>
-                    <th id='partofavgtier[0]'>Tier Score</th>
-                    <th id='tier[0]'>Tier</th>
-                    <th id='progress[0]'>Progress</th>
-                    <th id='chests[0]'>Chest</th>
-                    <th id='tokens[0]'>Tokens</th>
-                    <th id='date[0]'>Last played</th>
+                    <?php
+                    $headersHTML = "";
+                    foreach($headers as $id => $name){
+                        $headersHTML .= create_th("$id[0]", $name);
+                    }
+                    echo $headersHTML;
+                    ?>
                 </tr>
             <?php
             $position = 1;
@@ -188,7 +202,7 @@
                 if($position == 1){
                     $firstCodeName = $codeName;
                 }
-                require("displayData.php");
+                require("displayData.php"); // TODO change the way how data are printed
                 $position++;
             }
             echo "</table>";

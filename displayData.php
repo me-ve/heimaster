@@ -1,51 +1,40 @@
 <?php
+    require_once("createElements.php");
     require_once("timeElapsed.php");
-    if($level!=7){
+    if($level != 7){
         $progressToNextLevel = match($level) {
             1, 2, 3, 4 => $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel),
             default => $tokens/($level - 3)
         };
         $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
     }
-    else{
-        $progressToNextLevel = "N/A";
-    }
+    else $progressToNextLevel = "N/A";
     $pointsFormat = number_format($points, 0, ".", ",");
     $avgFormat = number_format($partOfAvg, 0, ".", ",");
     $avgLogFormat = number_format($partOfAvgLog, 2, ".", ",");
     $tier = new Tier($partOfAvgLog);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
-    echo "<tr id='row[{$position}]'>";
-    echo "<td id='position[{$position}]' class=positionCell>{$position}</td>";
-    echo "<td id='image[{$position}]' class=championImage><img src='{$iconURL}' class='championImage' alt='{$name}'></td>";
-    echo "<td id='name[{$position}]' class=cell>{$name}</td>";
-    if($level>=5)
-    {
-        echo "<td id='level[{$position}]' style='color: #ceb572;' class=levelCell>{$level}</td>";
-    }
-    else
-    {
-        echo "<td id='level[{$position}]' class=levelCell>{$level}</td>";
-    }
-    echo "<td id='points[{$position}]' class=mediumCell>{$pointsFormat}</td>";
-    echo "<td id='partofavg[{$position}]' class=mediumCell>{$avgFormat}%</td>";
-    echo "<td id='partofavgtier[{$position}]' class=smallCell>{$avgLogFormat}</td>";
-    echo "<td id='tier[{$position}]' class=smallCell>{$tier->tierSymbol}</td>";
-    echo "<td id='progress[{$position}]' class=progressCell>{$progressToNextLevel}</td>";
-    if($chests)
-    {
-        echo "<td id='chests[{$position}]' style='background-color: #ceb572;' class=chestCell>yes</td>";
-    }
-    else
-    {
-        echo "<td id='chests[{$position}]' style='background-color: #6c7b8b;' class=chestCell>no</td>";
-    }
-    echo "<td id='tokens[{$position}]' class=tokenCell>{$tokens}</td>";
+    $levelStyle = "";
+    if($level >= 5) $levelStyle = "color: #ceb572";
+    $chestsColor = $chests ? "#ceb572" : "#6c7b8b";
+    $chest = $chests ? "yes" : "no";
     //displaying last time
     $currentDateNum = strtotime($currentDate);
     $dateNum = strtotime($date);
     $timeChange = time_elapsed($currentDateNum - $dateNum);
-    echo "<td id='date[{$position}]' data-time='$date' class=longCell>{$timeChange}</td>";
-    echo "</tr>";
+    $cells = 
+        create_td("position[$position]", "$position", "positionCell").
+        create_td("image[$position]", create_img("", $iconURL, "championImage", $name), "championImage").
+        create_td("name[$position]", $name, "cell").
+        create_td("level[$position]", "$level", "levelCell", $levelStyle).
+        create_td("points[$position]", "$pointsFormat", "mediumCell").
+        create_td("partofavg[$position]", "$avgFormat%", "mediumCell").
+        create_td("partofavgtier[$position]", "$avgLogFormat", "smallCell").
+        create_td("tier[$position", "$tier->tierSymbol", "smallCell").
+        create_td("progress[$position]", "$progressToNextLevel", "progressCell").
+        create_td("chests[$position]", $chest, "chestCell", "background-color: $chestsColor").
+        create_td("tokens[$position]", "$tokens", "tokenCell").
+        create_tags("td", ["id"=>"date[$position]", "data-time"=>"$date", "class"=>"longCell"], true, "$timeChange");
+    echo create_tags("tr", ["id"=>"row[$position]"], true, $cells)
 ?>
