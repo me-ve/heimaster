@@ -106,6 +106,20 @@ th,
     margin-bottom: auto;
 }
 
+#summoner {
+    height: 100%;
+    margin: auto;
+    padding: 0px 0 0 100px;
+}
+
 #searchForm {
     width: 470px;
+}
+
+#top {
+    max-width: 1215px;
+    margin: auto;
+    height: 360px;
+    background-blend-mode: darken;
+    border-radius: 5px;
 }

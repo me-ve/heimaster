@@ -1,11 +1,12 @@
 <?php
+    require("executeJSCode.php");
     require("tiers.php");
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //import function to make queries from APIs
         require("doQuery.php");
         //change title to the Summoner name
-        echo "<script>document.getElementById('logo').textContent = '';</script>";
+        execute_JS_code("document.getElementById('logo').textContent = '';");
         //initializing dotenv
         if (file_exists('vendor/autoload.php')) {
             require_once('vendor/autoload.php');
@@ -41,7 +42,7 @@
         $summonerLevel = $summonerData['summonerLevel'];
         $summonerIcon = $summonerData['profileIconId'];
         $summonerName = $summonerData['name'];
-        echo "<script>document.title = '$summonerName - Mastery Tracker'</script>";
+        execute_JS_code("document.title = '$summonerName - Mastery Tracker'");
         //receiving rank
         $rankedData = do_query(
             $site, "lol/league/v4/entries/by-summoner", $summonerId, $context
@@ -102,7 +103,7 @@
             }
             $mostPlayed = $mastery[0];
                 echo "<div id='top'>";
-                echo "<table id='summoner' style='height: 100%; margin: auto; padding: 0px 0 0 100px;'>";
+                echo "<table id='summoner'>";
                 echo "<td id='icon'>";
                 echo "<img id='summonerIcon' src='{$ddragonURL}/img/profileicon/{$summonerIcon}.png'>";
                 echo "<div id='summonerLevel'>";
@@ -191,10 +192,11 @@
                 $position++;
             }
             echo "</table>";
-            echo "<script>document.getElementById(`top`).style".
-            "=`max-width: 1215px; margin: auto; background: rgba(0, 0, 0, 0.7) url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg) no-repeat center 15% / cover;".
-            "height:360px; background-blend-mode: darken; border-radius: 5px;`".
-            "</script>";
+            $topBackgroundStyle =
+            "background: rgba(0, 0, 0, 0.5)".
+            "url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg)".
+            "no-repeat center 15% / cover;";
+            execute_JS_code("document.getElementById(`top`).style.cssText += '$topBackgroundStyle'");
             ?>
             <script src="sort.js"></script>
             <?php
