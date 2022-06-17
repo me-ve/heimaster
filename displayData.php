@@ -1,17 +1,18 @@
 <?php
     require_once("createElements.php");
     require_once("timeElapsed.php");
+    require_once("formatNumbers.php");
     if($level != 7){
         $progressToNextLevel = match($level) {
             1, 2, 3, 4 => $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel),
             default => $tokens/($level - 3)
         };
-        $progressToNextLevel = (round($progressToNextLevel, 2) * 100)."%";
+        $progressToNextLevel = display_percent($progressToNextLevel, 2);
     }
     else $progressToNextLevel = "N/A";
-    $pointsFormat = number_format($points, 0, ".", ",");
-    $avgFormat = number_format($partOfAvg, 0, ".", ",");
-    $avgLogFormat = number_format($partOfAvgLog, 2, ".", ",");
+    $pointsFormat = display_with_separators($points);
+    $avgFormat = display_percent($partOfAvg);
+    $avgLogFormat = display_with_separators($partOfAvgLog, 2);
     $tier = new Tier($partOfAvgLog);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
@@ -29,7 +30,7 @@
         ["name[$position]", $name, "cell"],
         ["level[$position]", "$level", "levelCell", $levelStyle],
         ["points[$position]", "$pointsFormat", "mediumCell"],
-        ["partofavg[$position]", "$avgFormat%", "mediumCell"],
+        ["partofavg[$position]", "$avgFormat", "mediumCell"],
         ["partofavgtier[$position]", "$avgLogFormat", "smallCell"],
         ["tier[$position]", "$tier->tierSymbol", "smallCell"],
         ["progress[$position]", "$progressToNextLevel", "progressCell"],

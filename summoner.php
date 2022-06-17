@@ -1,5 +1,6 @@
 <?php
 require_once("champions.php");
+require_once("createElements.php");
 class Summoner{
     public string $id;
     public string $region;
@@ -20,6 +21,12 @@ class Summoner{
         $this->icon = $icon;
         $this->level = $level;
         $this->champions = $champions;
+    }
+    public function create_icon_td(string $ddragonURL){
+        $icon = create_img("summonerIcon", "{$ddragonURL}/img/profileicon/{$this->icon}.png");
+        $levelDiv = create_div("summonerLevel", create_span("summonerLevelSpan", $this->level));
+        $iconTd = create_td("icon", $icon.$levelDiv);
+        return $iconTd;
     }
 }
 ?>

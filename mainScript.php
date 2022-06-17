@@ -4,6 +4,42 @@
     require("tiers.php");
     require_once("summoner.php");
     require_once("champions.php");
+    require_once("ranked.php");
+    $tableHeaders = [
+        "position" => "#",
+        "image" => "Icon",
+        "name" => "Champion",
+        "level" => "Level",
+        "points" => "Points",
+        "partofavg" => "% of average",
+        "partofavgtier" => "Tier Score",
+        "tier" => "Tier",
+        "progress" => "Progress",
+        "chests" => "Chest",
+        "tokens" => "Tokens",
+        "date" => "Last played",
+    ];
+    function create_context(){
+        $options = array(
+            'http' => array(
+            'method' => "GET",
+            'header' => 
+                "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0)\n".
+                "X-Riot-Token: ".$_ENV["API_KEY"]
+            )
+        );
+        return stream_context_create($options);
+    }
+    function set_title(){
+        execute_JS_code("document.title = '{$summoner->name} - Mastery Tracker'");
+    }
+    function get_latest_version(){
+        $versionURL = "https://ddragon.leagueoflegends.com/api/versions.json";
+        $versionJSON = file_get_contents($versionURL);
+        $versionData = json_decode($versionJSON, 1);
+        if(!isset($versionData)) return false;
+        return $versionData[0];
+    }
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //import function to make queries from APIs
@@ -18,23 +54,14 @@
         $dotenv->load();
         //loading key
         $dotenv->required('API_KEY');
-        $options = array(
-            'http' => array(
-            'method' => "GET",
-            'header' => 
-                "User-Agent: Mozilla/4.0 (compatible; MSIE 6.0)\n".
-                "X-Riot-Token: ".$_ENV["API_KEY"]
-            )
-        );
-        $context = stream_context_create($options);
+        $context = create_context();
         //getting summoner data from form
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
         //receiving current League version
-        require("versionQuery.php");
-        if(isset($versionData)){
-        $gameVersion = $versionData[0];
+        $version = get_latest_version();
+        if($version != false){
         //receiving summoner id
         $summonerData = do_query(
             $site, "lol/summoner/v4/summoners/by-name", $summonerName, $context
@@ -49,7 +76,6 @@
                 $summonerData['summonerLevel'],
                 array()
             );
-            execute_JS_code("document.title = '{$summoner->name} - Mastery Tracker'");
         //receiving rank
         $rankedData = do_query(
             $site, "lol/league/v4/entries/by-summoner", $summoner->id, $context
@@ -59,15 +85,15 @@
             $ranked = [];
             foreach($rankedData as $queue)
             {
-                $array = [
-                    "queueType" => $queue["queueType"],
-                    "tier" => $queue["tier"],
-                    "rank" => $queue["rank"],
-                    "leaguePoints" => $queue["leaguePoints"],
-                    "wins" => $queue["wins"],
-                    "loses" => $queue["losses"]
-                ];
-                array_push($ranked, $array);
+                $rankedQueue = new Ranked(
+                    $queue["queueType"],
+                    $queue["tier"],
+                    $queue["rank"],
+                    $queue["leaguePoints"],
+                    $queue["wins"],
+                    $queue["losses"]
+                );
+                array_push($ranked, $rankedQueue);
             }
         }
         //require("mmrQuery.php");
@@ -112,25 +138,14 @@
             echo
                 "<div id='top'>".
                 "<table id='summoner'>";
-            $icon = create_img("summonerIcon", "{$ddragonURL}/img/profileicon/{$summoner->icon}.png");
-            $summonerLevelDiv = create_div("summonerLevel", create_span("summonerLevelSpan", $summoner->level));
-            $iconTd = create_td("icon", $icon.$summonerLevelDiv);
+            $iconTd = $summoner->create_icon_td($ddragonURL);
             echo
                 $iconTd.
                 "<td>".
                 "{$summonerRegion}<br>".
                 create_tags("h1", ["id"=>"summonerData"], true, $summoner->name);
-            foreach($ranked as $queue)
-            {
-                switch($queue["queueType"]){
-                    case "RANKED_SOLO_5x5": $type = "Solo"; break;
-                    case "RANKED_FLEX_SR": $type = "Flex"; break;
-                }
-                $tier = ucfirst(strtolower($queue['tier']));
-                $rank = $queue["rank"];
-                $LP = $queue["leaguePoints"];
-                $rankDisplay = "{$type}: {$tier} {$rank} ({$LP}LP)<br>";
-                echo "{$rankDisplay} ";
+            foreach($ranked as $queue){
+                echo $queue."<br>";
             }
             ?>
             </td>
@@ -140,31 +155,16 @@
             </table>
             </div>
             <?php
-            $headers = [
-                "position" => "#",
-                "image" => "",
-                "name" => "Champion",
-                "level" => "Level",
-                "points" => "Points",
-                "partofavg" => "% of average",
-                "partofavgtier" => "Tier Score",
-                "tier" => "Tier",
-                "progress" => "Progress",
-                "chests" => "Chest",
-                "tokens" => "Tokens",
-                "date" => "Last played",
-            ];
+            
             ?>
             <table id='champions'>
-                <tr id='row[0]'>
-                    <?php
+                <?php
                     $headersHTML = "";
-                    foreach($headers as $id => $name){
+                    foreach($tableHeaders as $id => $name){
                         $headersHTML .= create_th("{$id}[0]", $name);
                     }
-                    echo $headersHTML;
-                    ?>
-                </tr>
+                    echo create_tags("tr", ["id"=>"row[0]"], true, $headersHTML);
+                ?>
             <?php
             $position = 1;
             $totalPts = 0;
@@ -183,9 +183,7 @@
                 $level = $champion["championLevel"];
                 $points = $champion["championPoints"];
                 $partOfAvg = $points / $avgPts;
-                $logBase = 3;
-                $partOfAvgLog = log($partOfAvg, $logBase);
-                $partOfAvg = round($partOfAvg, 2)*100;
+                $partOfAvgLog = log($partOfAvg, 3);
                 $ptsSinceLastLevel = $champion["championPointsSinceLastLevel"];
                 $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
                 $chests = $champion["chestGranted"];
