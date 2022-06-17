@@ -19,6 +19,13 @@
         "tokens" => "Tokens",
         "date" => "Last played",
     ];
+    function set_top_style($ddragonGeneral, $firstCodeName){
+        $topBackgroundStyle =
+        "background: rgba(0, 0, 0, 0.5)".
+        "url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg)".
+        "no-repeat center 15% / cover;";
+        execute_JS_code("document.getElementById(`top`).style.cssText += '$topBackgroundStyle'");
+    }
     function create_table_with_headers($headers){
         $headersHTML = "";
         foreach($headers as $id => $name){
@@ -48,12 +55,14 @@
         if(!isset($versionData)) return false;
         return $versionData[0];
     }
+    function remove_logo(){
+        execute_JS_code("document.getElementById('logo').textContent = '';");
+    }
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
         //import function to make queries from APIs
         require("doQuery.php");
-        //change title to the Summoner name
-        execute_JS_code("document.getElementById('logo').textContent = '';");
+        remove_logo();
         //initializing dotenv
         if (file_exists('vendor/autoload.php')) {
             require_once('vendor/autoload.php');
@@ -207,11 +216,7 @@
                 $position++;
             }
             echo "</table>";
-            $topBackgroundStyle =
-            "background: rgba(0, 0, 0, 0.5)".
-            "url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg)".
-            "no-repeat center 15% / cover;";
-            execute_JS_code("document.getElementById(`top`).style.cssText += '$topBackgroundStyle'");
+            set_top_style($ddragonGeneral, $firstCodeName);
             ?>
             <script src="sort.js"></script>
             <?php
