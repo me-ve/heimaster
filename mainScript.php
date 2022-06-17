@@ -19,6 +19,14 @@
         "tokens" => "Tokens",
         "date" => "Last played",
     ];
+    function create_table_with_headers($headers){
+        $headersHTML = "";
+        foreach($headers as $id => $name){
+            $headersHTML .= create_th("{$id}[0]", $name);
+        }
+        $tableRows = [create_tags("tr", ["id"=>"row[0]"], true, $headersHTML)];
+        return $tableRows;
+    }
     function create_context(){
         $options = array(
             'http' => array(
@@ -103,6 +111,7 @@
         );
         if(isset($masteryData))
         {
+            $tableRows = create_table_with_headers($tableHeaders);
             $mastery = [];
             $counter = 0;
             foreach($masteryData as $champion) {
@@ -121,19 +130,11 @@
             }
         };
         //getting list of champions names
-        require("championsQuery.php");
-        if(isset($championsData))
+        $ddragonGeneral = "http://ddragon.leagueoflegends.com/cdn";
+        $ddragonURL = "{$ddragonGeneral}/{$version}";
+        $champions = retrieve_champions($ddragonURL, $version);
+        if($champions != false)
         {
-            $champions = [];
-            foreach($championsData["data"] as $championArray) {
-                $champion = new Champion(
-                    $championArray["id"],
-                    $championArray["key"],
-                    $championArray["name"],
-                    $championArray["image"]["full"]
-                );
-                array_push($champions, $champion);
-            }
             $mostPlayed = $mastery[0];
             echo
                 "<div id='top'>".
@@ -158,13 +159,9 @@
             
             ?>
             <table id='champions'>
-                <?php
-                    $headersHTML = "";
-                    foreach($tableHeaders as $id => $name){
-                        $headersHTML .= create_th("{$id}[0]", $name);
-                    }
-                    echo create_tags("tr", ["id"=>"row[0]"], true, $headersHTML);
-                ?>
+            <?php
+                
+            ?>
             <?php
             $position = 1;
             $totalPts = 0;
@@ -176,6 +173,7 @@
                 $count++;
                 array_push($pointsArray, $champion["championPoints"]);
             }
+            echo $tableRows[0];
             if($count) $avgPts = $totalPts / $count;
             foreach($mastery as $champion)
             {
