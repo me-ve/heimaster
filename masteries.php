@@ -7,6 +7,26 @@
         public date $lastPlayed;
         public bool $chest;
         public int $tokens;
+        public function __construct(
+            int $level,
+            int $points,
+            int $pointsSince,
+            int $pointsUntil,
+            date $lastPlayed,
+            bool $chest,
+            int $tokens
+        ){
+            $this->level = $level;
+            $this->points = $points;
+            $this->pointsSince = $pointsSince;
+            $this->$pointsUntil = $pointsUntil;
+        }
+        public static function doQuery($site, $context, $summoner){
+            $masteryData = doQuery(
+                $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summoner->id, $context
+            );
+            return $masteryData;
+        }
         public function getProgress(){
             if($this->level != 7){
                 $progress = match($level){

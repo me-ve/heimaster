@@ -1,5 +1,5 @@
 <?php
-function time_elapsed($sec){
+function timeElapsed($sec){
     $between = fn($a, $b, $c) => $a <= $b && $b < $c;
     $MINUTE = 60;
     $HOUR = 60 * $MINUTE;

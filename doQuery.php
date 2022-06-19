@@ -1,5 +1,5 @@
 <?php
-function do_query($site, $API, $item, $context){
+function doQuery($site, $API, $item, $context){
     $query = "{$site}/{$API}/{$item}";
     $JSON = file_get_contents($query, false, $context);
     return json_decode($JSON, true);

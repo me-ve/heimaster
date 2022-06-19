@@ -7,12 +7,12 @@
             1, 2, 3, 4 => $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel),
             default => $tokens/($level - 3)
         };
-        $progressToNextLevel = display_percent($progressToNextLevel, 2);
+        $progressToNextLevel = displayPercent($progressToNextLevel, 2);
     }
     else $progressToNextLevel = "N/A";
-    $pointsFormat = display_with_separators($points);
-    $avgFormat = display_percent($partOfAvg);
-    $avgLogFormat = display_with_separators($partOfAvgLog, 2);
+    $pointsFormat = displayWithSeparators($points);
+    $avgFormat = displayPercent($partOfAvg);
+    $avgLogFormat = displayWithSeparators($partOfAvgLog, 2);
     $tier = new Tier($partOfAvgLog);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
@@ -23,10 +23,10 @@
     //displaying last time
     $currentDateNum = strtotime($currentDate);
     $dateNum = strtotime($date);
-    $timeChange = time_elapsed($currentDateNum - $dateNum);
+    $timeChange = timeElapsed($currentDateNum - $dateNum);
     $cells = [
         ["position[$position]", "$position", "positionCell"],
-        ["image[$position]", create_img("", $iconURL, "championImage", $name), "championImage"],
+        ["image[$position]", createImg("", $iconURL, "championImage", $name), "championImage"],
         ["name[$position]", $name, "cell"],
         ["level[$position]", "$level", "levelCell", $levelStyle],
         ["points[$position]", "$pointsFormat", "mediumCell"],
@@ -39,8 +39,8 @@
     ];
     $cellsString = "";
     foreach ($cells as $cell){
-        $cellsString .= create_td($cell[0], $cell[1], $cell[2], isset($cell[3]) ? $cell[3] : "");
+        $cellsString .= createTd($cell[0], $cell[1], $cell[2], isset($cell[3]) ? $cell[3] : "");
     }
-    $cellsString .= create_tags("td", ["id"=>"date[$position]", "data-time"=>"$date", "class"=>"longCell"], true, "$timeChange");
-    echo create_tags("tr", ["id"=>"row[$position]"], true, $cellsString)
+    $cellsString .= createTags("td", ["id"=>"date[$position]", "data-time"=>"$date", "class"=>"longCell"], true, "$timeChange");
+    echo createTags("tr", ["id"=>"row[$position]"], true, $cellsString)
 ?>

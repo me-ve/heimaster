@@ -1,5 +1,5 @@
 <?php
-function create_tags(string $type, array $parameters, bool $enclosed=false, string $content=""){
+function createTags(string $type, array $parameters, bool $enclosed=false, string $content=""){
     $res = "<$type";
     foreach($parameters as $parameter => $parameter_value){
         if($parameter_value != ""){
@@ -12,35 +12,35 @@ function create_tags(string $type, array $parameters, bool $enclosed=false, stri
     }
     return $res;
 }
-function create_img(string $id, string $src, string $class="", string $alt=""){
+function createImg(string $id, string $src, string $class="", string $alt=""){
     $parameters = [
         "id" => $id,
         "src" => $src,
         "class" => $class,
         "alt" => $alt
     ];
-    $img = create_tags("img", $parameters);
+    $img = createTags("img", $parameters);
     return $img;
 }
-function create_td(string $id, string $content, string $class="", string $style=""){
+function createTd(string $id, string $content, string $class="", string $style=""){
     $parameters = [
         "id" => $id,
         "class" => $class,
         "style" => $style,
     ];
-    $td = create_tags("td", $parameters, true, $content);
+    $td = createTags("td", $parameters, true, $content);
     return $td;
 }
-function create_th(string $id, string $content, string $class="", string $style=""){
+function createTh(string $id, string $content, string $class="", string $style=""){
     $parameters = [
         "id" => $id,
         "class" => $class,
         "style" => $style,
     ];
-    $th = create_tags("th", $parameters, true, $content);
+    $th = createTags("th", $parameters, true, $content);
     return $th;
 }
-function create_div(string $id, string $content, string $class="", string $style=""){
+function createDiv(string $id, string $content, string $class="", string $style=""){
     $parameters = [
         "id" => $id,
         "class" => $class,
@@ -49,13 +49,13 @@ function create_div(string $id, string $content, string $class="", string $style
     $div = "<div id='$id' style='$style'>$content</div>";
     return $div;
 }
-function create_span(string $id, string $content, string $class="", string $style=""){
+function createSpan(string $id, string $content, string $class="", string $style=""){
     $parameters = [
         "id" => $id,
         "class" => $class,
         "style" => $style,
     ];
-    $span = create_tags("span", $parameters, true, $content);
+    $span = createTags("span", $parameters, true, $content);
     return $span;
 }
 ?>

@@ -12,29 +12,29 @@
             $this->name = $name;
             $this->image = $image;
         }
-    }
-    function findChampionName(string $id, array $champions){
-        foreach($champions as $champion){
-            if($champion["key"] == $id){
-                return $champion;
+        public static function findName(string $id, array $champions){
+            foreach($champions as $champion){
+                if($champion["key"] == $id){
+                    return $champion;
+                }
             }
         }
-    }
-    function retrieve_champions($ddragonURL, $version){
-        $championsURL = "{$ddragonURL}/data/en_US/champion.json";
-        $championsJSON = file_get_contents($championsURL);
-        $championsData = json_decode($championsJSON, 1);
-        if(!isset($championsData)) return false;
-        $champions = [];
-        foreach($championsData["data"] as $championArray) {
-            $champion = new Champion(
-                $championArray["id"],
-                $championArray["key"],
-                $championArray["name"],
-                $championArray["image"]["full"]
-            );
-            array_push($champions, $champion);
+        public static function retrieve(string $ddragonURL, string $version){
+            $championsURL = "{$ddragonURL}/data/en_US/champion.json";
+            $championsJSON = file_get_contents($championsURL);
+            $championsData = json_decode($championsJSON, 1);
+            if(!isset($championsData)) return false;
+            $champions = [];
+            foreach($championsData["data"] as $championArray) {
+                $champion = new Champion(
+                    $championArray["id"],
+                    $championArray["key"],
+                    $championArray["name"],
+                    $championArray["image"]["full"]
+                );
+                array_push($champions, $champion);
+            }
+            return $champions;
         }
-        return $champions;
     }
 ?>

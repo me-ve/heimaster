@@ -1,10 +1,11 @@
 <?php
-    require("createElements.php");
-    require("executeJSCode.php");
-    require("tiers.php");
+    require_once("createElements.php");
+    require_once("executeJSCode.php");
+    require_once("tiers.php");
     require_once("summoner.php");
     require_once("champions.php");
     require_once("ranked.php");
+    require_once("masteries.php");
     $tableHeaders = [
         "position" => "#",
         "image" => "Icon",
@@ -19,22 +20,15 @@
         "tokens" => "Tokens",
         "date" => "Last played",
     ];
-    function set_top_style($ddragonGeneral, $firstCodeName){
-        $topBackgroundStyle =
-        "background: rgba(0, 0, 0, 0.5)".
-        "url({$ddragonGeneral}/img/champion/splash/{$firstCodeName}_0.jpg)".
-        "no-repeat center 15% / cover;";
-        execute_JS_code("document.getElementById(`top`).style.cssText += '$topBackgroundStyle'");
-    }
-    function create_table_with_headers($headers){
+    function createTableWithHeaders($headers){
         $headersHTML = "";
         foreach($headers as $id => $name){
-            $headersHTML .= create_th("{$id}[0]", $name);
+            $headersHTML .= createTh("{$id}[0]", $name);
         }
-        $tableRows = [create_tags("tr", ["id"=>"row[0]"], true, $headersHTML)];
+        $tableRows = [createTags("tr", ["id"=>"row[0]"], true, $headersHTML)];
         return $tableRows;
     }
-    function create_context(){
+    function createContext(){
         $options = array(
             'http' => array(
             'method' => "GET",
@@ -45,24 +39,16 @@
         );
         return stream_context_create($options);
     }
-    function set_title(){
-        execute_JS_code("document.title = '{$summoner->name} - Mastery Tracker'");
-    }
-    function get_latest_version(){
+    function getLatestVersion(){
         $versionURL = "https://ddragon.leagueoflegends.com/api/versions.json";
         $versionJSON = file_get_contents($versionURL);
         $versionData = json_decode($versionJSON, 1);
         if(!isset($versionData)) return false;
         return $versionData[0];
     }
-    function remove_logo(){
-        execute_JS_code("document.getElementById('logo').textContent = '';");
-    }
     if(isset($_GET["summonerName"], $_GET["region"]))
     {
-        //import function to make queries from APIs
-        require("doQuery.php");
-        remove_logo();
+        removeLogo();
         //initializing dotenv
         if (file_exists('vendor/autoload.php')) {
             require_once('vendor/autoload.php');
@@ -71,68 +57,38 @@
         $dotenv->load();
         //loading key
         $dotenv->required('API_KEY');
-        $context = create_context();
+        $context = createContext();
         //getting summoner data from form
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
         $site = "https://{$summonerRegion}.api.riotgames.com";
         //receiving current League version
-        $version = get_latest_version();
+        $version = getLatestVersion();
         if($version != false){
         //receiving summoner id
-        $summonerData = do_query(
-            $site, "lol/summoner/v4/summoners/by-name", $summonerName, $context
-        );
-        if(isset($summonerData))
-        {
-            $summoner = new Summoner(
-                $summonerData['id'],
-                $_GET["region"],
-                $summonerData['name'],
-                $summonerData['profileIconId'],
-                $summonerData['summonerLevel'],
-                array()
-            );
-        //receiving rank
-        $rankedData = do_query(
-            $site, "lol/league/v4/entries/by-summoner", $summoner->id, $context
-        );
-        if(isset($rankedData))
-        {
-            $ranked = [];
-            foreach($rankedData as $queue)
-            {
-                $rankedQueue = new Ranked(
-                    $queue["queueType"],
-                    $queue["tier"],
-                    $queue["rank"],
-                    $queue["leaguePoints"],
-                    $queue["wins"],
-                    $queue["losses"]
-                );
-                array_push($ranked, $rankedQueue);
-            }
-        }
+        $summoner = Summoner::getFromAPI($site, $context, $summonerName);
+        if($summoner != NULL){
+        setTitle($summoner);
+        //receiving ranks
+        $rankedArray = createRankedArray($site, $context, $summoner);
         //require("mmrQuery.php");
         //receiving champions masteries for summoner
-        $masteryData = do_query(
-            $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summoner->id, $context
-        );
+        $masteryData = MasteryData::doQuery($site, $context, $summoner);
         if(isset($masteryData))
         {
-            $tableRows = create_table_with_headers($tableHeaders);
+            $tableRows = createTableWithHeaders($tableHeaders);
             $mastery = [];
             $counter = 0;
-            foreach($masteryData as $champion) {
+            foreach($masteryData as $masteryRow) {
                 $array = [
-                    "championId" => $champion["championId"],
-                    "championLevel" => $champion["championLevel"],
-                    "championPoints" => $champion["championPoints"],
-                    "lastPlayTime" => $champion["lastPlayTime"],
-                    "championPointsSinceLastLevel" => $champion["championPointsSinceLastLevel"],
-                    "championPointsUntilNextLevel" => $champion["championPointsUntilNextLevel"],
-                    "chestGranted" => $champion["chestGranted"],
-                    "tokensEarned" => $champion["tokensEarned"]
+                    "championId" => $masteryRow["championId"],
+                    "championLevel" => $masteryRow["championLevel"],
+                    "championPoints" => $masteryRow["championPoints"],
+                    "lastPlayTime" => $masteryRow["lastPlayTime"],
+                    "championPointsSinceLastLevel" => $masteryRow["championPointsSinceLastLevel"],
+                    "championPointsUntilNextLevel" => $masteryRow["championPointsUntilNextLevel"],
+                    "chestGranted" => $masteryRow["chestGranted"],
+                    "tokensEarned" => $masteryRow["tokensEarned"]
                 ];
                 array_push($mastery, $array);
                 $counter++;
@@ -141,20 +97,20 @@
         //getting list of champions names
         $ddragonGeneral = "http://ddragon.leagueoflegends.com/cdn";
         $ddragonURL = "{$ddragonGeneral}/{$version}";
-        $champions = retrieve_champions($ddragonURL, $version);
+        $champions = Champion::retrieve($ddragonURL, $version);
         if($champions != false)
         {
             $mostPlayed = $mastery[0];
             echo
                 "<div id='top'>".
                 "<table id='summoner'>";
-            $iconTd = $summoner->create_icon_td($ddragonURL);
+            $iconTd = $summoner->createIconTd($ddragonURL);
             echo
                 $iconTd.
                 "<td>".
                 "{$summonerRegion}<br>".
-                create_tags("h1", ["id"=>"summonerData"], true, $summoner->name);
-            foreach($ranked as $queue){
+                createTags("h1", ["id"=>"summonerData"], true, $summoner->name);
+            foreach($rankedArray as $queue){
                 echo $queue."<br>";
             }
             ?>
@@ -216,7 +172,7 @@
                 $position++;
             }
             echo "</table>";
-            set_top_style($ddragonGeneral, $firstCodeName);
+            setTopStyle($ddragonGeneral, $firstCodeName);
             ?>
             <script src="sort.js"></script>
             <?php
