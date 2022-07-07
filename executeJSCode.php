@@ -10,7 +10,7 @@ function setTopStyle($ddragonGeneral, $firstCodeName){
     executeJSCode("document.getElementById(`top`).style.cssText += '$topBackgroundStyle'");
 }
 function setTitle($summoner){
-    executeJSCode("document.title = '{$summoner->name} - Mastery Tracker'");
+    executeJSCode("document.title = '{$summoner->name} - Heimaster'");
 }
 function removeLogo(){
     executeJSCode("document.getElementById('logo').textContent = '';");

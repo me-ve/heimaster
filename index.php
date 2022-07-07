@@ -1,14 +1,14 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <title>Mastery Tracker</title>
+        <title>Heimaster</title>
         <meta charset="UTF-8">
         <link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="http://fonts.cdnfonts.com/css/helvetica-neue-9">
     </head>
     <body>
         <p id="logo">
-            MASTERY TRACKER
+            HEIMASTER
         </p>
     <?php
     $currentDate = date("Y-m-d H:i:s");
