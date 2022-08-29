@@ -16,9 +16,9 @@ What are these cryptic "Tier" and "Tier Score"?
 Tier Score is a measure of how much points someone has on specified champion compared to other champions.
 It is calculated using the formula:
 ```
-f(x) = log3(x/avg)
+f(x) = log3(x/avg) + ((level >= 6) + (level == 7))*0.5
 ```
-where x is this champion's mastery and avg is average champions' mastery.
+where x is this champion's mastery and avg is average champions' mastery. For every level above 5 the bonus of 0.50 tier score is added.
 
 Tier is set using the Tier Score. Tier Levels are specified as below:
 | Level | Min   | Max   | ~Min % |

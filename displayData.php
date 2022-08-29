@@ -13,7 +13,9 @@
     $pointsFormat = displayWithSeparators($points);
     $avgFormat = displayPercent($partOfAvg);
     $avgLogFormat = displayWithSeparators($partOfAvgLog, 2);
-    $tier = new Tier($partOfAvgLog);
+    $tierScore = $partOfAvgLog + (($level >= 6) + ($level == 7))*0.5;
+    $tierScoreFormat = displayWithSeparators($tierScore, 2);
+    $tier = new Tier($tierScore);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
     $levelStyle = "";
@@ -31,7 +33,7 @@
         ["level[$position]", "$level", "levelCell", $levelStyle],
         ["points[$position]", "$pointsFormat", "mediumCell"],
         ["partofavg[$position]", "$avgFormat", "mediumCell"],
-        ["partofavgtier[$position]", "$avgLogFormat", "smallCell"],
+        ["tierscore[$position]", "$tierScoreFormat", "smallCell"],
         ["tier[$position]", "$tier->tierSymbol", "smallCell"],
         ["progress[$position]", "$progressToNextLevel", "progressCell"],
         ["chests[$position]", $chest, "chestCell", "background-color: $chestsColor"],

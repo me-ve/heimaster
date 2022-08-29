@@ -32,7 +32,7 @@ function getChampionFromRow(index) {
         getTextContentFromCell("level", index),
         getTextContentFromCell("points", index),
         getTextContentFromCell("partofavg", index),
-        getTextContentFromCell("partofavgtier", index),
+        getTextContentFromCell("tierscore", index),
         getTextContentFromCell("tier", index),
         getTextContentFromCell("progress", index),
         getTextContentFromCell("chests", index),
@@ -79,6 +79,7 @@ function SortBy(arg) {
             });
             break;
         case "Champion":
+        case "Icon":
             Champions.sort(function(a, b) {
                 return a.name.localeCompare(b.name);
             });
@@ -89,6 +90,7 @@ function SortBy(arg) {
             });
             break;
         case "Points":
+        case "% of average":
             Champions.sort(function(a, b) {
                 let a_pts = a.points.replace(',', '');
                 let b_pts = b.points.replace(',', '');
@@ -149,7 +151,7 @@ function ReorganizeTable(arg) {
         }
         document.getElementById(`points[${index}]`).innerText = champion.points;
         document.getElementById(`partofavg[${index}]`).innerText = champion.avg_percent;
-        document.getElementById(`partofavgtier[${index}]`).innerText = champion.tier_score;
+        document.getElementById(`tierscore[${index}]`).innerText = champion.tier_score;
         document.getElementById(`tier[${index}]`).innerText = champion.tier;
         document.getElementById(`progress[${index}]`).innerText = champion.progress;
         document.getElementById(`chests[${index}]`).innerText = champion.chest;

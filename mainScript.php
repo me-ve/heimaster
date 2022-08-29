@@ -13,7 +13,7 @@
         "level" => "Level",
         "points" => "Points",
         "partofavg" => "% of average",
-        "partofavgtier" => "Tier Score",
+        "tierscore" => "Tier Score",
         "tier" => "Tier",
         "progress" => "Progress",
         "chests" => "Chest",
@@ -120,13 +120,7 @@
             </td>
             </table>
             </div>
-            <?php
-            
-            ?>
             <table id='champions'>
-            <?php
-                
-            ?>
             <?php
             $position = 1;
             $totalPts = 0;
