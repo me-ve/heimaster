@@ -13,7 +13,7 @@
     $pointsFormat = displayWithSeparators($points);
     $avgFormat = displayPercent($partOfAvg);
     $avgLogFormat = displayWithSeparators($partOfAvgLog, 2);
-    $tierScore = $partOfAvgLog + (($level >= 6) + ($level == 7))*0.5;
+    $tierScore = $partOfAvgLog + (($level >= 6) + ($level == 7))*0.5 + $tokens*0.125;
     $tierScoreFormat = displayWithSeparators($tierScore, 2);
     $tier = new Tier($tierScore);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
