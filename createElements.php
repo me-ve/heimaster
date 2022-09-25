@@ -12,6 +12,9 @@ function createTags(string $type, array $parameters, bool $enclosed=false, strin
     }
     return $res;
 }
+function createBr(){
+    return createTags("br", []);
+}
 function createImg(string $id, string $src, string $class="", string $alt=""){
     $parameters = [
         "id" => $id,
@@ -19,8 +22,7 @@ function createImg(string $id, string $src, string $class="", string $alt=""){
         "class" => $class,
         "alt" => $alt
     ];
-    $img = createTags("img", $parameters);
-    return $img;
+    return createTags("img", $parameters);
 }
 function createTd(string $id, string $content, string $class="", string $style=""){
     $parameters = [
@@ -28,8 +30,7 @@ function createTd(string $id, string $content, string $class="", string $style="
         "class" => $class,
         "style" => $style,
     ];
-    $td = createTags("td", $parameters, true, $content);
-    return $td;
+    return createTags("td", $parameters, true, $content);
 }
 function createTh(string $id, string $content, string $class="", string $style=""){
     $parameters = [
@@ -37,8 +38,7 @@ function createTh(string $id, string $content, string $class="", string $style="
         "class" => $class,
         "style" => $style,
     ];
-    $th = createTags("th", $parameters, true, $content);
-    return $th;
+    return createTags("th", $parameters, true, $content);
 }
 function createDiv(string $id, string $content, string $class="", string $style=""){
     $parameters = [
@@ -46,8 +46,7 @@ function createDiv(string $id, string $content, string $class="", string $style=
         "class" => $class,
         "style" => $style,
     ];
-    $div = "<div id='$id' style='$style'>$content</div>";
-    return $div;
+    return createTags("div", $parameters, true, $content);
 }
 function createSpan(string $id, string $content, string $class="", string $style=""){
     $parameters = [
@@ -55,7 +54,12 @@ function createSpan(string $id, string $content, string $class="", string $style
         "class" => $class,
         "style" => $style,
     ];
-    $span = createTags("span", $parameters, true, $content);
-    return $span;
+    return createTags("span", $parameters, true, $content);
+}
+function createScript(string $code){
+    return createTags("script", [], true, $code);
+}
+function createScriptFromSrc(string $src){
+    return createTags("script", ["src" => $src], true);
 }
 ?>

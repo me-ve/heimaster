@@ -4,7 +4,7 @@
         public int $points;
         public int $pointsSince;
         public int $pointsUntil;
-        public date $lastPlayed;
+        public string $lastPlayed;
         public bool $chest;
         public int $tokens;
         public function __construct(
@@ -12,7 +12,7 @@
             int $points,
             int $pointsSince,
             int $pointsUntil,
-            date $lastPlayed,
+            string $lastPlayed,
             bool $chest,
             int $tokens
         ){
@@ -20,6 +20,9 @@
             $this->points = $points;
             $this->pointsSince = $pointsSince;
             $this->$pointsUntil = $pointsUntil;
+            $this->lastPlayed = $lastPlayed;
+            $this->chest = $chest;
+            $this->tokens = $tokens;
         }
         public static function doQuery($site, $context, $summoner){
             $masteryData = doQuery(
@@ -29,7 +32,7 @@
         }
         public function getProgress(){
             if($this->level != 7){
-                $progress = match($level){
+                $progress = match($this->level){
                     1, 2, 3, 4 => $this->pointsSince/($this->pointsSince+$this->pointsUntil),
                     default => $this->tokens/($this->level - 3)
                 };

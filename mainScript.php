@@ -1,6 +1,6 @@
 <?php
     require_once("createElements.php");
-    require_once("executeJSCode.php");
+    require_once("executeCode.php");
     require_once("tiers.php");
     require_once("summoner.php");
     require_once("champions.php");
@@ -108,10 +108,10 @@
             echo
                 $iconTd.
                 "<td>".
-                "{$summonerRegion}<br>".
+                $summonerRegion.createBr().
                 createTags("h1", ["id"=>"summonerData"], true, $summoner->name);
             foreach($rankedArray as $queue){
-                echo $queue."<br>";
+                echo $queue.createBr();
             }
             ?>
             </td>
