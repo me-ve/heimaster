@@ -16,16 +16,29 @@
         ];
         public array $table;
         public function __construct(){
-            $this->table = createTableWithHeaders(self::HEADERS);
+            $firstRow = [];
+            foreach(self::HEADERS as $headerId => $headerName){
+                array_push($firstRow, createTh($headerId, $headerName));
+            }
+            $this->table = [$firstRow];
         }
         public function __toString(){
-            return join("", $this->table);
+            $result = "";
+            $i = 0;
+            foreach($this->table as $row){
+                $result .= createTr("row[{$i}]", join("", $row));
+                $i++;
+            }
+            return createTags("table", ["id"=>"champions"], true, $result);
         }
         public function rows() : int{
             return count($this->table)-1;
         }
         public function cols() : int{
             return count(self::HEADERS);
+        }
+        public function AddRow(array $row){
+            array_push($this->table, $row);
         }
     }
 ?>

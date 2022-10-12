@@ -19,7 +19,7 @@
             $this->level = $level;
             $this->points = $points;
             $this->pointsSince = $pointsSince;
-            $this->$pointsUntil = $pointsUntil;
+            $this->pointsUntil = $pointsUntil;
             $this->lastPlayed = $lastPlayed;
             $this->chest = $chest;
             $this->tokens = $tokens;
@@ -46,6 +46,21 @@
                 return (round($progress, 2) * 100)."%";
             }
             return "N/A";
+        }
+        public function pointsString() : string{
+            return displayWithSeparators($this->points);
+        }
+        public function chestString() : string{
+            return $this->chest ? "yes" : "no";
+        }
+        public function tokenString() : string{
+            return "$this->tokens";
+        }
+        public function lastPlayedDateString() : string{
+            return date("Y-m-d H:i:s", $this->lastPlayed/1000);
+        }
+        public function timeChange($currentDate) : string{
+            return timeElapsed(strtotime($currentDate) - strtotime($this->lastPlayedDateString()));
         }
     }
 ?>

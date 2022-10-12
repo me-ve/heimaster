@@ -37,8 +37,18 @@ function createBasicTag(string $type, string $id, string $content, string $class
 function createTd(string $id, string $content, string $class="", string $style="") : string{
     return createBasicTag("td", $id, $content, $class, $style);
 }
+function createTdArray(array $cells) : array{
+    $result = [];
+    foreach ($cells as $cell){
+        array_push($result, createTd($cell[0], $cell[1], $cell[2], isset($cell[3]) ? $cell[3] : ""));
+    }
+    return $result;
+}
 function createTh(string $id, string $content, string $class="", string $style="") : string{
     return createBasicTag("th", $id, $content, $class, $style);
+}
+function createTr(string $id, string $content, string $class="", string $style="") : string{
+    return createBasicTag("tr", $id, $content, $class, $style);
 }
 function createDiv(string $id, string $content, string $class="", string $style="") : string{
     return createBasicTag("div", $id, $content, $class, $style);

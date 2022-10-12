@@ -9,6 +9,7 @@
     require_once("masteries.php");
     require_once("colors.php");
     require_once("mainTable.php");
+    require_once("timeElapsed.php");
     const TABLE_HEADERS = [
         "position" => "#",
         "image" => "Icon",
@@ -23,14 +24,6 @@
         "tokens" => "Tokens",
         "date" => "Last played",
     ];
-    function createTableWithHeaders($headers) : array{
-        $headersHTML = "";
-        foreach($headers as $id => $name){
-            $headersHTML .= createTh("{$id}[0]", $name);
-        }
-        $tableRows = [createTags("tr", ["id"=>"row[0]"], true, $headersHTML)];
-        return $tableRows;
-    }
     function getLatestVersion() : string{
         $versionURL = "https://ddragon.leagueoflegends.com/api/versions.json";
         $versionJSON = file_get_contents($versionURL);
@@ -89,7 +82,7 @@
             //getting list of champions names
             $ddragonGeneral = "http://ddragon.leagueoflegends.com/cdn";
             $ddragonURL = "{$ddragonGeneral}/{$version}";
-            $champions = Champion::retrieve($ddragonURL, $version);
+            $champions = Champion::retrieve($ddragonURL);
             if($champions != false)
             {
                 $mostPlayed = $mastery[0];
@@ -110,32 +103,30 @@
                 </td>
                 </table>
                 </div>
-                <table id='champions'>
                 <?php
                 $position = 1;
                 $totalPts = 0;
                 $count = 0;
-                $pointsArray = [];
                 foreach($mastery as $champion)
                 {
                     $totalPts += $champion["championPoints"];
                     $count++;
-                    array_push($pointsArray, $champion["championPoints"]);
                 }
-                echo $table;
                 if($count) $avgPts = $totalPts / $count;
                 foreach($mastery as $champion)
                 {
                     $id = $champion["championId"];
-                    $level = $champion["championLevel"];
-                    $points = $champion["championPoints"];
-                    $partOfAvg = $points / $avgPts;
+                    $masteryData = new MasteryData(
+                        $champion["championLevel"],
+                        $champion["championPoints"],
+                        $champion["championPointsSinceLastLevel"],
+                        $champion["championPointsUntilNextLevel"],
+                        $champion["lastPlayTime"],
+                        $champion["chestGranted"],
+                        $champion["tokensEarned"]
+                    );
+                    $partOfAvg = $masteryData->points / $avgPts;
                     $tierBase = Tier::tierBase($partOfAvg);
-                    $ptsSinceLastLevel = $champion["championPointsSinceLastLevel"];
-                    $ptsUntilNextLevel = $champion["championPointsUntilNextLevel"];
-                    $chests = $champion["chestGranted"];
-                    $lastPlayTime = $champion["lastPlayTime"];
-                    $tokens = $champion["tokensEarned"];
                     $name = "";
                     $iconURL = "";
                     $codeName = "";
@@ -149,13 +140,40 @@
                             $iconURL = "{$ddragonURL}/img/champion/{$icon}";
                         }
                     }
+                    $progress = $masteryData->progressString();
                     if($position == 1){
                         $firstCodeName = $codeName;
                     }
-                    require("displayData.php"); // TODO change the way how data are printed
+                    $avgFormat = displayPercent($partOfAvg);
+                    $tier = new Tier($partOfAvg, $masteryData);
+                    $levelStyle = ($masteryData->level >= 5) ? "color: ".COLORS["gold"] : "";
+                    $chestsColor = $masteryData->chest ? COLORS["gold"] : COLORS["dark_grey_blue"];
+                    //displaying last time
+                    $timeChange = $masteryData->timeChange($currentDate);
+                    $cells = [
+                        ["position[$position]", "$position", "positionCell"],
+                        ["image[$position]", createImg("", $iconURL, "championImage", $name), "championImage"],
+                        ["name[$position]", $name, "cell"],
+                        ["level[$position]", "{$masteryData->level}", "levelCell", $levelStyle],
+                        ["points[$position]", "{$masteryData->pointsString()}", "mediumCell"],
+                        ["partofavg[$position]", $avgFormat, "mediumCell"],
+                        ["tierscore[$position]", $tier->tierScoreString(), "smallCell"],
+                        ["tier[$position]", $tier->tierSymbol, "smallCell"],
+                        ["progress[$position]", $masteryData->progressString(), "progressCell"],
+                        ["chests[$position]", $masteryData->chestString(), "chestCell", "background-color: $chestsColor"],
+                        ["tokens[$position]", $masteryData->tokenString(), "tokenCell"]
+                    ];
+                    $row = createTdArray($cells);
+                    array_push($row,
+                        createTags("td", [
+                            "id"=>"date[$position]",
+                            "data-time"=>$masteryData->lastPlayedDateString(),
+                            "class"=>"longCell"],
+                            true, "$timeChange"));
+                    $table->AddRow($row);
                     $position++;
                 }
-                echo "</table>";
+                echo $table;
                 setTopStyle($ddragonGeneral, $firstCodeName);
                 echo createScriptFromSrc("sort.js");
             }
