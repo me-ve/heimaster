@@ -1,39 +1,42 @@
 <?php
-function timeElapsed($sec){
-    $between = fn($a, $b, $c) => $a <= $b && $b < $c;
-    $MINUTE = 60;
-    $HOUR = 60 * $MINUTE;
-    $DAY = 24 * $HOUR;
-    $WEEK = 7 * $DAY;
-    $YEAR = 365 * $DAY + 6 * $HOUR;
-    $MONTH = $YEAR / 12;
+const TIME_UNITS = array(
+    "second" => 1,
+    "minute" => 60,
+    "hour" => 60*60,
+    "day" => 24*60*60,
+    "week" => 7*24*60*60,
+    "month" => 30*24*60*60,
+    "year" => 365.25*24*60*60
+);
+function isInRange(int $a, int $lower_bound, int $higher_bound) : bool{
+    return $a >= $lower_bound
+        && $a < $higher_bound;
+}
+function timeElapsed(int $time) : string{
     $count = "some";
     $unit = "time";
-    if($between(0, $sec, 2*$MINUTE)) {
-        if($sec == 1){
+    if(isInRange($time, 0, 2*TIME_UNITS["minute"])) {
+        if($time == 1){
             $count = "a";
             $unit = "second";
         }
         else $unit = "seconds";
-        $count = $sec;
-    } else if($between(2*$MINUTE, $sec, 2*$HOUR)) {
-        $unit = "minutes";
-        $count = round($sec/$MINUTE);
-    } else if($between(2*$HOUR, $sec, 2*$DAY)) {
-        $unit = "hours";
-        $count = round($sec/($HOUR));
-    } else if($between(2*$DAY, $sec, 2*$WEEK)) {
-        $unit = "days";
-        $count = round($sec/($DAY));
-    } else if($between(2*$WEEK, $sec, 2*$MONTH)) {
-        $unit = "weeks";
-        $count = round($sec/($WEEK));
-    } else if($between(2*$MONTH, $sec, 2*$YEAR)) {
-        $unit = "months";
-        $count = round($sec/($MONTH));
-    } else {
-        $unit = "years";
-        $count = round($sec/($YEAR));
+        $count = $time;
+    } else{
+        if(isInRange($time, 2*TIME_UNITS["minute"], 2*TIME_UNITS["hour"])) {
+            $unit = "minutes";
+        } else if(isInRange($time, 2*TIME_UNITS["hour"], 2*TIME_UNITS["day"])) {
+            $unit = "hours";
+        } else if(isInRange($time, 2*TIME_UNITS["day"], 2*TIME_UNITS["week"])) {
+            $unit = "days";
+        } else if(isInRange($time, 2*TIME_UNITS["week"], 2*TIME_UNITS["month"])) {
+            $unit = "weeks";
+        } else if(isInRange($time, 2*TIME_UNITS["month"], 2*TIME_UNITS["year"])) {
+            $unit = "months";
+        } else {
+            $unit = "years";
+        }
+        $count = round($time/TIME_UNITS[rtrim($unit, 's')]);
     }
     return "{$count} {$unit} ago";
 }

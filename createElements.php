@@ -1,9 +1,9 @@
 <?php
-function createTags(string $type, array $parameters, bool $enclosed=false, string $content=""){
+function createTags(string $type, array $parameters=[], bool $enclosed=false, string $content="") : string{
     $res = "<$type";
     foreach($parameters as $parameter => $parameter_value){
         if($parameter_value != ""){
-            $res .= " {$parameter}='$parameter_value'";
+            $res .= " {$parameter}='{$parameter_value}'";
         }
     }
     $res .= ">";
@@ -12,10 +12,10 @@ function createTags(string $type, array $parameters, bool $enclosed=false, strin
     }
     return $res;
 }
-function createBr(){
-    return createTags("br", []);
+function createBr() : string{
+    return createTags("br");
 }
-function createImg(string $id, string $src, string $class="", string $alt=""){
+function createImg(string $id, string $src, string $class="", string $alt="") : string{
     $parameters = [
         "id" => $id,
         "src" => $src,
@@ -24,42 +24,32 @@ function createImg(string $id, string $src, string $class="", string $alt=""){
     ];
     return createTags("img", $parameters);
 }
-function createTd(string $id, string $content, string $class="", string $style=""){
-    $parameters = [
+function setBasicParams(string $id, string $class, string $style) : array{
+    return [
         "id" => $id,
         "class" => $class,
         "style" => $style,
     ];
-    return createTags("td", $parameters, true, $content);
 }
-function createTh(string $id, string $content, string $class="", string $style=""){
-    $parameters = [
-        "id" => $id,
-        "class" => $class,
-        "style" => $style,
-    ];
-    return createTags("th", $parameters, true, $content);
+function createBasicTag(string $type, string $id, string $content, string $class="", string $style="") : string{
+    return createTags($type, setBasicParams($id, $class, $style), true, $content);
 }
-function createDiv(string $id, string $content, string $class="", string $style=""){
-    $parameters = [
-        "id" => $id,
-        "class" => $class,
-        "style" => $style,
-    ];
-    return createTags("div", $parameters, true, $content);
+function createTd(string $id, string $content, string $class="", string $style="") : string{
+    return createBasicTag("td", $id, $content, $class, $style);
 }
-function createSpan(string $id, string $content, string $class="", string $style=""){
-    $parameters = [
-        "id" => $id,
-        "class" => $class,
-        "style" => $style,
-    ];
-    return createTags("span", $parameters, true, $content);
+function createTh(string $id, string $content, string $class="", string $style="") : string{
+    return createBasicTag("th", $id, $content, $class, $style);
 }
-function createScript(string $code){
+function createDiv(string $id, string $content, string $class="", string $style="") : string{
+    return createBasicTag("div", $id, $content, $class, $style);
+}
+function createSpan(string $id, string $content, string $class="", string $style="") : string{
+    return createBasicTag("span", $id, $content, $class, $style);
+}
+function createScript(string $code) : string{
     return createTags("script", [], true, $code);
 }
-function createScriptFromSrc(string $src){
+function createScriptFromSrc(string $src) : string{
     return createTags("script", ["src" => $src], true);
 }
 ?>

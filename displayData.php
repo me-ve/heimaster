@@ -2,6 +2,7 @@
     require_once("createElements.php");
     require_once("timeElapsed.php");
     require_once("formatNumbers.php");
+    require_once("colors.php");
     if($level != 7){
         $progressToNextLevel = match($level) {
             1, 2, 3, 4 => $ptsSinceLastLevel/($ptsSinceLastLevel+$ptsUntilNextLevel),
@@ -12,15 +13,13 @@
     else $progressToNextLevel = "N/A";
     $pointsFormat = displayWithSeparators($points);
     $avgFormat = displayPercent($partOfAvg);
-    $avgLogFormat = displayWithSeparators($partOfAvgLog, 2);
-    $tierScore = $partOfAvgLog + (($level >= 6) + ($level == 7))*0.5 + $tokens*0.125;
+    $tierScore = Tier::calculateTierScore($tierBase, $level, $tokens);
     $tierScoreFormat = displayWithSeparators($tierScore, 2);
     $tier = new Tier($tierScore);
     $date = date("Y-m-d H:i:s", $lastPlayTime/1000);
     $d = new DateTime($date);
-    $levelStyle = "";
-    if($level >= 5) $levelStyle = "color: #ceb572";
-    $chestsColor = $chests ? "#ceb572" : "#6c7b8b";
+    $levelStyle = ($level >= 5) ? "color: ".COLORS["gold"] : "";
+    $chestsColor = $chests ? COLORS["gold"] : COLORS["dark_grey_blue"];
     $chest = $chests ? "yes" : "no";
     //displaying last time
     $currentDateNum = strtotime($currentDate);

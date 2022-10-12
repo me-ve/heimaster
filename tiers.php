@@ -31,5 +31,11 @@ class Tier{
         if(!$tierFound) $tierSymbol = self::TIERS[-4];
         return $tierSymbol;
     }
+    static function tierBase($partOfAvg){
+        return log($partOfAvg, 3);
+    }
+    static function calculateTierScore($partOfAvgLog, $level, $tokens){
+        return $partOfAvgLog + (($level >= 6) + ($level == 7))*0.5 + $tokens*0.125;
+    }
 }
 ?>

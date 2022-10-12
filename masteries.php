@@ -24,13 +24,13 @@
             $this->chest = $chest;
             $this->tokens = $tokens;
         }
-        public static function doQuery($site, $context, $summoner){
+        public static function doQuery(string $site, $context, Summoner $summoner) : array{
             $masteryData = doQuery(
                 $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summoner->id, $context
             );
             return $masteryData;
         }
-        public function getProgress(){
+        public function getProgress() : float{
             if($this->level != 7){
                 $progress = match($this->level){
                     1, 2, 3, 4 => $this->pointsSince/($this->pointsSince+$this->pointsUntil),
@@ -40,7 +40,7 @@
             }
             else return INF;
         }
-        public function progressString(){
+        public function progressString() : string{
             $progress = $this->getProgress();
             if($progress < INF){
                 return (round($progress, 2) * 100)."%";

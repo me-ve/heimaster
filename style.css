@@ -1,7 +1,7 @@
 body {
     background-color: #62708a;
     color: snow;
-    font-family: 'Helvetica';
+    font-family: 'Helvetica', 'Roboto', 'Calibri';
 }
 
 table {
@@ -11,7 +11,7 @@ table {
 }
 
 .input {
-    font-family: 'Helvetica';
+    font-family: 'Helvetica', 'Roboto', 'Calibri';
     background-color: silver;
     border-radius: 5px;
 }
@@ -100,7 +100,7 @@ th,
 #summonerLevelSpan {
     background-color: black;
     border-radius: 8px;
-    padding: 8px 8px 8px 8px;
+    padding: 8px;
 }
 
 #summonerData {

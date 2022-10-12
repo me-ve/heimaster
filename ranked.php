@@ -1,19 +1,20 @@
 <?php
 require_once("formatNumbers.php");
 class Ranked{
+    public string $WIN_SYMBOL = "\u{1F3C6}";
     public string $type;
     public string $tier;
     public string $rank;
     public int $leaguePoints;
     public int $wins;
     public int $losses;
-    public static function doQuery($site, $context, $summoner){
+    public static function doQuery(string $site, $context, Summoner $summoner) : array{
         $rankedData = doQuery(
             $site, "lol/league/v4/entries/by-summoner", $summoner->id, $context
         );
         return $rankedData;
     }
-    public static function createFromQuery(array $queue){
+    public static function createFromQuery(array $queue) : Ranked{
         $rankedQueue = new Ranked(
             $queue["queueType"],
             $queue["tier"],
@@ -24,19 +25,19 @@ class Ranked{
         );
         return $rankedQueue;
     }
-    public function typeString(){
+    public function typeString() : string{
         switch($this->type){
             case "RANKED_SOLO_5x5": return "Solo"; break;
             case "RANKED_FLEX_SR": return "Flex"; break;
         }
     }
-    public function tierString(){
+    public function tierString() : string{
         return ucfirst(strtolower($this->tier));
     }
-    public function totalMatches(){
+    public function totalMatches() : int{
         return $this->wins + $this->losses;
     }
-    public function winRate(){
+    public function winRate() : float{
         return $this->wins / $this->totalMatches();
     }
     public function __construct(
@@ -54,13 +55,13 @@ class Ranked{
         $this->wins = $wins;
         $this->losses = $losses;
     }
-    public function __toString(){
+    public function __toString() : string{
         $winRateStr = displayPercent($this->winRate());
         return "{$this->TypeString()}: {$this->TierString()} {$this->rank} {$this->leaguePoints} LP<br>".
-        "\u{1F3C6} {$this->wins} of {$this->totalMatches()} ({$winRateStr})";
+        "{$this->WIN_SYMBOL} {$this->wins} of {$this->totalMatches()} ({$winRateStr})";
     }
 }
-function createRankedArray($site, $context, $summoner){
+function createRankedArray(string $site, $context, Summoner $summoner) : array{
     $rankedData = Ranked::doQuery($site, $context, $summoner);
     if(!isset($rankedData)) return NULL;
     $rankedArray = [];
