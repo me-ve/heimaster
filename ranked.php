@@ -1,6 +1,9 @@
 <?php
 require_once("formatNumbers.php");
+require_once("apiQuery.php");
+require_once("summoner.php");
 class Ranked{
+    const API = "lol/league/v4/entries/by-summoner";
     public string $WIN_SYMBOL = "\u{1F3C6}";
     public string $type;
     public string $tier;
@@ -9,8 +12,8 @@ class Ranked{
     public int $wins;
     public int $losses;
     public static function doQuery(string $site, $context, Summoner $summoner) : array{
-        $rankedData = doQuery(
-            $site, "lol/league/v4/entries/by-summoner", $summoner->id, $context
+        $rankedData = APIQuery::doQuery(
+            $site, self::API, $summoner->id, $context
         );
         return $rankedData;
     }

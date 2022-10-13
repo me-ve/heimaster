@@ -1,8 +1,9 @@
 <?php
-require_once("doQuery.php");
+require_once("apiQuery.php");
 require_once("champions.php");
 require_once("createElements.php");
 class Summoner {
+    const API = "lol/summoner/v4/summoners/by-name";
     public string $id;
     public string $region;
     public string $name;
@@ -30,7 +31,7 @@ class Summoner {
         return $iconTd;
     }
     public static function getFromAPI(string $site, mixed $context, string $region, string $name) : Summoner{
-        $summonerData = doQuery($site, "lol/summoner/v4/summoners/by-name", $name, $context);
+        $summonerData = APIQuery::doQuery($site, self::API, $name, $context);
         if(!isset($summonerData)) return NULL;
         $summoner = new Summoner(
             $summonerData['id'],

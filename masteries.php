@@ -1,5 +1,7 @@
 <?php
+    require_once("apiQuery.php");
     class MasteryData{
+        const API = "lol/champion-mastery/v4/champion-masteries/by-summoner";
         public int $level;
         public int $points;
         public int $pointsSince;
@@ -25,8 +27,8 @@
             $this->tokens = $tokens;
         }
         public static function doQuery(string $site, $context, Summoner $summoner) : array{
-            $masteryData = doQuery(
-                $site, "lol/champion-mastery/v4/champion-masteries/by-summoner", $summoner->id, $context
+            $masteryData = APIQuery::doQuery(
+                $site, self::API, $summoner->id, $context
             );
             return $masteryData;
         }
