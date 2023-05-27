@@ -18,9 +18,7 @@
     require "mainScript.php";
     ?>
     <p id="refreshTime">
-        <?php
-        echo "Last refreshed in {$currentDate}";
-        ?>
+        Last refreshed in <?= $currentDate ?>
     </p>
     </body>
 </html>
