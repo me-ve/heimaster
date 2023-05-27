@@ -12,11 +12,10 @@
         </p>
     <?php
     $currentDate = date("Y-m-d H:i:s");
-    if(!(isset($_GET["summonerName"], $_GET["region"])))
-    {
-        include ("form.html");
+    if (!(isset($_GET["summonerName"], $_GET["region"]))) {
+        include "form.html";
     }
-    include("mainScript.php");
+    require "mainScript.php";
     ?>
     <p id="refreshTime">
         <?php

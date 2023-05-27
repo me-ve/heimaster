@@ -16,11 +16,11 @@ class Champion {
     }
 }
 //TODO generate events for sorting in row0 for each column
-function getCell(columnName, index){
+function getCell(columnName, index) {
     let cell = document.getElementById(`${columnName}[${index}]`);
     return cell.valueOf();
 }
-function getTextContentFromCell(columnName, index){
+function getTextContentFromCell(columnName, index) {
     let cell = getCell(columnName, index);
     return cell.textContent;
 }
@@ -74,60 +74,60 @@ function SortBy(arg) {
     //TODO make reversable
     switch (arg) {
         case "#":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return a.position - b.position;
             });
             break;
         case "Champion":
         case "Icon":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return a.name.localeCompare(b.name);
             });
             break;
         case "Level":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return b.level - a.level;
             });
             break;
         case "Points":
         case "% of average":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 let a_pts = a.points.replace(',', '');
                 let b_pts = b.points.replace(',', '');
                 return b_pts - a_pts;
             });
             break;
         case "Tier Score":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return b.tier_score - a.tier_score;
             });
             break;
         case "Tier":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return getTierValue(b.tier) - getTierValue(a.tier);
             });
             break;
         case "Progress":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 a_pr = a.progress == "N/A" ? 101 : a.progress.replace('%', '');
                 b_pr = b.progress == "N/A" ? 101 : b.progress.replace('%', '');
                 return b_pr - a_pr;
             });
             break;
         case "Chest":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 let a_chest = a.chest == "yes" ? 1 : 0;
                 let b_chest = b.chest == "yes" ? 1 : 0;
                 return b_chest - a_chest;
             });
             break;
         case "Tokens":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return b.tokens - a.tokens;
             });
             break;
         case "Last played":
-            Champions.sort(function(a, b) {
+            Champions.sort(function (a, b) {
                 return b.last_played.localeCompare(a.last_played);
             });
             break;
@@ -170,7 +170,7 @@ row0 = document.getElementById("row[0]").children;
 for (let cell of row0) {
     let text = (cell.innerText);
     if (text != null) {
-        cell.addEventListener("click", function() {
+        cell.addEventListener("click", function () {
             ReorganizeTable(text);
         });
     }
