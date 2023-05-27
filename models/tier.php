@@ -50,6 +50,6 @@ class Tier
     }
     public function tierScoreString(): string
     {
-        return \displayWithSeparators($this->tierScore, 2);
+        return \View\NumberHelper::displayWithSeparators($this->tierScore, 2);
     }
 }

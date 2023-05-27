@@ -1,15 +1,19 @@
 <?php
-    require_once "streamContext.php";
-    require_once "createElements.php";
-    require_once "executeCode.php";
-    require_once "tiers.php";
-    require_once "summoner.php";
-    require_once "champions.php";
-    require_once "ranked.php";
-    require_once "masteries.php";
-    require_once "colors.php";
-    require_once "mainTable.php";
-    require_once "timeElapsed.php";
+
+    require_once "controllers/streamContext.php";
+    require_once "models/api.php";
+    require_once "models/champion.php";
+    require_once "models/masteryData.php";
+    require_once "models/rankedData.php";
+    require_once "models/summoner.php";
+    require_once "models/tier.php";
+    require_once "views/colors.php";
+    require_once "views/mainTable.php";
+    require_once "views/helpers/number.php";
+    require_once "views/helpers/script.php";
+    require_once "views/helpers/tag.php";
+    require_once "views/helpers/time.php";
+
     const TABLE_HEADERS = [
         "position" => "#",
         "image" => "Icon",
@@ -35,7 +39,7 @@
         return $versionData[0];
     }
     if (isset($_GET["summonerName"], $_GET["region"])) {
-        removeLogo();
+        View\ScriptHelper::removeLogo();
         //initializing dotenv
         if (file_exists('vendor/autoload.php')) {
             include_once 'vendor/autoload.php';
@@ -44,7 +48,7 @@
         $dotenv->load();
         //loading key
         $dotenv->required('API_KEY');
-        $context = StreamContext::getContext($_ENV["API_KEY"]);
+        $context = Controller\StreamContext::getContext($_ENV["API_KEY"]);
         //getting summoner data from form
         $summonerRegion = $_GET["region"];
         $summonerName = str_replace(' ', '', $_GET["summonerName"]);
@@ -55,7 +59,7 @@
             //receiving summoner id
             $summoner = Model\Summoner::getFromAPI($site, $context, $_GET["region"], $summonerName);
             if ($summoner != null) {
-                setTitle($summoner);
+                View\ScriptHelper::setTitle($summoner);
                 //receiving ranks
                 $rankedArray = Model\Ranked::createArray($site, $context, $summoner);
                 //require("mmrQuery.php");
@@ -93,9 +97,9 @@
                     echo
                     $iconTd .
                     "<td>" .
-                    $summonerRegion . createBr() .
-                    createTags("h1", ["id" => "summonerData"], true, $summoner->name);
-                    $queueBrs = join(createBr(), $rankedArray);
+                    $summonerRegion . View\TagHelper::createBr() .
+                    View\TagHelper::createTags("h1", ["id" => "summonerData"], true, $summoner->name);
+                    $queueBrs = join(View\TagHelper::createBr(), $rankedArray);
                     echo $queueBrs . "</td>";
                     ?>
                 <td id="searchForm">
@@ -142,15 +146,15 @@
                         if ($position == 1) {
                             $firstCodeName = $codeName;
                         }
-                        $avgFormat = displayPercent($partOfAvg);
+                        $avgFormat = View\NumberHelper::displayPercent($partOfAvg);
                         $tier = new Model\Tier($partOfAvg, $masteryData);
-                        $levelStyle = ($masteryData->level >= 5) ? "color: " . COLORS["gold"] : "";
-                        $chestsColor = $masteryData->chest ? COLORS["gold"] : COLORS["dark_grey_blue"];
+                        $levelStyle = ($masteryData->level >= 5) ? "color: " . View\COLORS["gold"] : "";
+                        $chestsColor = $masteryData->chest ? View\COLORS["gold"] : View\COLORS["dark_grey_blue"];
                         //displaying last time
                         $timeChange = $masteryData->timeChange($currentDate);
                         $cells = [
                         ["position[$position]", "$position", "positionCell"],
-                        ["image[$position]", createImg("", $iconURL, "championImage", $name), "championImage"],
+                        ["image[$position]", View\TagHelper::createImg("", $iconURL, "championImage", $name), "championImage"],
                         ["name[$position]", $name, "cell"],
                         ["level[$position]", "{$masteryData->level}", "levelCell", $levelStyle],
                         ["points[$position]", "{$masteryData->pointsString()}", "mediumCell"],
@@ -161,10 +165,10 @@
                         ["chests[$position]", $masteryData->chestString(), "chestCell", "background-color: $chestsColor"],
                         ["tokens[$position]", $masteryData->tokenString(), "tokenCell"]
                         ];
-                        $row = createTdArray($cells);
+                        $row = View\TagHelper::createTdArray($cells);
                         array_push(
                             $row,
-                            createTags(
+                            View\TagHelper::createTags(
                                 "td",
                                 [
                                 "id" => "date[$position]",
@@ -178,8 +182,8 @@
                         $position++;
                     }
                     echo $table;
-                    setTopStyle($ddragonGeneral, $firstCodeName);
-                    echo createScriptFromSrc("sort.js");
+                    View\ScriptHelper::setTopStyle($ddragonGeneral, $firstCodeName);
+                    echo View\TagHelper::createScriptFromSrc("sort.js");
                 }
             } else {
                 include "form.html";

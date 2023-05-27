@@ -23,7 +23,7 @@ class MainTable
     {
         $firstRow = [];
         foreach (self::HEADERS as $headerId => $headerName) {
-            array_push($firstRow, createTh($headerId, $headerName));
+            array_push($firstRow, TagHelper::createTh($headerId, $headerName));
         }
         $this->table = [$firstRow];
     }
@@ -32,10 +32,10 @@ class MainTable
         $result = "";
         $i = 0;
         foreach ($this->table as $row) {
-            $result .= createTr("row[{$i}]", join("", $row));
+            $result .= TagHelper::createTr("row[{$i}]", join("", $row));
             $i++;
         }
-        return createTags("table", ["id" => "champions"], true, $result);
+        return TagHelper::createTags("table", ["id" => "champions"], true, $result);
     }
     public function rows(): int
     {

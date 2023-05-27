@@ -2,9 +2,6 @@
 
 namespace Model;
 
-require_once "formatNumbers.php";
-require_once "apiQuery.php";
-require_once "summoner.php";
 class Ranked
 {
     const API = "lol/league/v4/entries/by-summoner";
@@ -74,7 +71,7 @@ class Ranked
     }
     public function __toString(): string
     {
-        $winRateStr = displayPercent($this->winRate());
+        $winRateStr = \View\NumberHelper::displayPercent($this->winRate());
         return "{$this->TypeString()}: {$this->TierString()} {$this->rank} {$this->leaguePoints} LP<br>" .
         "{$this->WIN_SYMBOL} {$this->wins} of {$this->totalMatches()} ({$winRateStr})";
     }

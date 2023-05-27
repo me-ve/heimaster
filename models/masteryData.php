@@ -2,7 +2,6 @@
 
 namespace Model;
 
-require_once "apiQuery.php";
 class MasteryData
 {
     public const API = "lol/champion-mastery/v4/champion-masteries/by-summoner";
@@ -64,7 +63,7 @@ class MasteryData
     }
     public function pointsString(): string
     {
-        return \displayWithSeparators($this->points);
+        return \View\NumberHelper::displayWithSeparators($this->points);
     }
     public function chestString(): string
     {
@@ -80,7 +79,7 @@ class MasteryData
     }
     public function timeChange($currentDate): string
     {
-        return timeElapsed(
+        return \View\TimeHelper::timeElapsed(
             strtotime($currentDate) - strtotime($this->lastPlayedDateString())
         );
     }

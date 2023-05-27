@@ -2,7 +2,6 @@
 
 namespace Model;
 
-require_once "masteries.php";
 class Champion
 {
     public string $id;

@@ -2,9 +2,6 @@
 
 namespace Model;
 
-require_once "apiQuery.php";
-require_once "champions.php";
-require_once "createElements.php";
 class Summoner
 {
     public const API = "lol/summoner/v4/summoners/by-name";
@@ -31,18 +28,18 @@ class Summoner
     }
     public function createIconTd(string $ddragonURL): string
     {
-        $icon = createImg(
+        $icon = \View\TagHelper::createImg(
             "summonerIcon",
             "{$ddragonURL}/img/profileicon/{$this->icon}.png"
         );
-        $levelDiv = createDiv(
+        $levelDiv = \View\TagHelper::createDiv(
             "summonerLevel",
-            createSpan(
+            \View\TagHelper::createSpan(
                 "summonerLevelSpan",
                 $this->level
             )
         );
-        return createTd("icon", $icon . $levelDiv);
+        return \View\TagHelper::createTd("icon", $icon . $levelDiv);
     }
     public static function getFromAPI(
         string $site,
